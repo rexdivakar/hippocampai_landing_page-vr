@@ -1,75 +1,89 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Star } from "lucide-react"
+import { Star, Quote } from "lucide-react"
 
 const testimonials = [
   {
     name: "Sarah Chen",
-    role: "AI Engineer at TechCorp",
-    avatar: "/professional-woman-avatar.png",
-    content: "HippocampAI transformed how our chatbot handles context. The semantic search is incredibly accurate.",
+    role: "AI Engineer",
+    content: "HippocampAI transformed how our chatbot handles context. The semantic search is incredibly accurate and the deduplication saves us significant storage costs.",
     rating: 5,
   },
   {
     name: "Marcus Rodriguez",
     role: "CTO at StartupXYZ",
-    avatar: "/professional-man-avatar.png",
-    content: "We reduced our memory retrieval latency by 80%. The performance is outstanding.",
+    content: "We reduced our memory retrieval latency significantly. The hybrid search approach gives us the best of both worlds - semantic understanding and keyword precision.",
     rating: 5,
   },
   {
     name: "Emily Watson",
     role: "ML Researcher",
-    avatar: "/researcher-woman-avatar.jpg",
-    content: "The open-source nature and excellent documentation made integration seamless.",
+    content: "The open-source nature and excellent documentation made integration seamless. Sleep Phase consolidation is a game-changer for long-running agents.",
+    rating: 5,
+  },
+  {
+    name: "David Kim",
+    role: "Senior Developer",
+    content: "Finally, a memory solution that just works. The Python SDK is intuitive and the self-hosting option gives us full control over our data.",
+    rating: 5,
+  },
+  {
+    name: "Lisa Thompson",
+    role: "Product Manager",
+    content: "Our AI assistant now remembers user preferences across sessions. The importance scoring helps surface the most relevant memories.",
+    rating: 5,
+  },
+  {
+    name: "James Wilson",
+    role: "Founder at AgentStack",
+    content: "The multi-tenant support is exactly what we needed for our SaaS platform. Each customer gets isolated memory spaces with zero configuration.",
     rating: 5,
   },
 ]
 
 export function Testimonials() {
   return (
-    <section className="py-32 relative border-t border-white/5">
-      <div className="container mx-auto px-4">
+    <section className="py-20 px-4 bg-white">
+      <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Loved by developers
           </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Join thousands of AI engineers building with HippocampAI
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            See what developers are saying about HippocampAI
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-8 bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-2xl hover:border-emerald-500/50 transition-all duration-500"
+              transition={{ delay: index * 0.05 }}
+              className="bg-white rounded-2xl border border-gray-200 p-6 hover:border-cyan-300 hover:shadow-lg transition-all duration-300"
             >
-              <div className="flex gap-1 mb-4">
+              <Quote className="h-8 w-8 text-cyan-200 mb-4" />
+              <p className="text-gray-600 mb-4 text-sm leading-relaxed">{testimonial.content}</p>
+              <div className="flex gap-0.5 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-emerald-400 text-emerald-400" />
+                  <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-gray-300 mb-6">{testimonial.content}</p>
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.avatar || "/placeholder.svg"}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full"
-                />
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center text-white font-semibold text-sm">
+                  {testimonial.name.split(" ").map(n => n[0]).join("")}
+                </div>
                 <div>
-                  <p className="font-semibold">{testimonial.name}</p>
-                  <p className="text-sm text-gray-400">{testimonial.role}</p>
+                  <p className="font-medium text-gray-900 text-sm">{testimonial.name}</p>
+                  <p className="text-xs text-gray-500">{testimonial.role}</p>
                 </div>
               </div>
             </motion.div>

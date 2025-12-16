@@ -1,48 +1,42 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Image from "next/image"
 
-const companies = [
-  { name: "Rewind", logo: "/openai-logo-inspired-abstract.png" },
-  { name: "Agent.ai", logo: "/anthropic-logo-abstract.png" },
-  { name: "PWC", logo: "/hugging-face-logo.png" },
-  { name: "Microsoft", logo: "/cohere-logo-inspired.png" },
-  { name: "NVIDIA", logo: "/mistral-ai-logo.png" },
-  { name: "Mastra", logo: "/google-ai-logo.png" },
-  { name: "AWS", logo: "/openai-logo-inspired-abstract.png" },
+const techStack = [
+  "Python",
+  "FastAPI", 
+  "Qdrant",
+  "OpenAI",
+  "Docker",
+  "SQLite",
+  "Ollama",
+  "LangChain",
 ]
 
 export function CompanyLogos() {
   return (
-    <section className="py-20 relative border-t border-white/5">
+    <section className="py-12 border-y border-gray-100 bg-white">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center text-sm text-gray-500 mb-8"
         >
-          <p className="text-sm text-gray-500 uppercase tracking-wider mb-8">Used by 50k+ Developers From</p>
-        </motion.div>
+          Built with modern, production-ready technologies
+        </motion.p>
 
-        <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 opacity-50 hover:opacity-100 transition-opacity duration-500">
-          {companies.map((company, index) => (
+        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+          {techStack.map((tech, index) => (
             <motion.div
-              key={company.name}
-              initial={{ opacity: 0, y: 20 }}
+              key={tech}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="grayscale hover:grayscale-0 transition-all duration-300"
+              transition={{ delay: index * 0.05 }}
+              className="px-4 py-2 bg-gray-50 rounded-full text-gray-600 font-medium text-sm hover:bg-cyan-50 hover:text-cyan-600 transition-colors cursor-default"
             >
-              <Image
-                src={company.logo || "/placeholder.svg"}
-                alt={company.name}
-                width={120}
-                height={40}
-                className="h-8 w-auto object-contain"
-              />
+              {tech}
             </motion.div>
           ))}
         </div>
