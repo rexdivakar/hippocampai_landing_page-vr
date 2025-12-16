@@ -4,12 +4,12 @@ import { DocsContent } from "@/components/docs-content"
 
 export const metadata = {
   title: "Documentation - HippocampAI",
-  description: "Complete documentation for HippocampAI - Enterprise Memory for AI Agents",
+  description: "Complete documentation for HippocampAI - Long-term memory engine for LLMs",
 }
 
 export default function DocsPage() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-white text-slate-900">
       <Navigation />
       <DocsContent />
       <Footer />

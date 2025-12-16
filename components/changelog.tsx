@@ -1,161 +1,147 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Tag, Sparkles, Bug, Zap, ExternalLink } from "lucide-react"
+import { Tag, Sparkles, ExternalLink } from "lucide-react"
 
 const releases = [
   {
     version: "v1.0.0",
+    type: "Stable Release",
+    typeColor: "green",
     date: "Dec 2025",
-    type: "major",
-    title: "Stable Release",
-    changes: [
-      { type: "feature", text: "Production-ready memory engine" },
-      { type: "feature", text: "Sleep Phase memory consolidation" },
-      { type: "feature", text: "Built-in dashboard UI with filters" },
-      { type: "feature", text: "Hybrid retrieval (BM25 + vector)" },
-      { type: "improvement", text: "40% better retrieval accuracy" },
-    ],
+    features: [
+      "Production-ready memory engine",
+      "Sleep Phase memory consolidation",
+      "Built-in dashboard UI with filters",
+      "Hybrid retrieval (BM25 + vector)",
+      "40% better retrieval accuracy"
+    ]
   },
   {
     version: "v0.9.0",
+    type: "Beta Release",
+    typeColor: "amber",
     date: "Nov 2025",
-    type: "minor",
-    title: "Beta Release",
-    changes: [
-      { type: "feature", text: "Auto-deduplication with semantic similarity" },
-      { type: "feature", text: "Multi-user and session support" },
-      { type: "feature", text: "Importance scoring system" },
-      { type: "improvement", text: "Docker Compose deployment" },
-    ],
+    features: [
+      "Auto-deduplication with semantic similarity",
+      "Multi-user and session support",
+      "Importance scoring system",
+      "Docker Compose deployment"
+    ]
   },
   {
     version: "v0.8.0",
+    type: "Alpha Release",
+    typeColor: "purple",
     date: "Oct 2025",
-    type: "minor",
-    title: "Alpha Release",
-    changes: [
-      { type: "feature", text: "Core memory engine" },
-      { type: "feature", text: "Qdrant vector database integration" },
-      { type: "feature", text: "OpenAI embeddings support" },
-    ],
-  },
+    features: [
+      "Core memory engine",
+      "Qdrant vector database integration",
+      "OpenAI embeddings support"
+    ]
+  }
 ]
 
 const roadmap = [
-  { title: "GraphRAG Integration", status: "Planned" },
-  { title: "LangChain Memory Adapter", status: "Planned" },
-  { title: "Webhook Notifications", status: "Planned" },
-  { title: "Memory Analytics Dashboard", status: "Planned" },
+  { feature: "GraphRAG Integration", status: "Planned" },
+  { feature: "LangChain Memory Adapter", status: "Planned" },
+  { feature: "Webhook Notifications", status: "Planned" },
+  { feature: "Memory Analytics Dashboard", status: "Planned" },
 ]
-
-const changeTypeIcons: Record<string, { icon: typeof Sparkles; color: string }> = {
-  feature: { icon: Sparkles, color: "text-cyan-500" },
-  improvement: { icon: Zap, color: "text-amber-500" },
-  fix: { icon: Bug, color: "text-emerald-500" },
-}
 
 export function Changelog() {
   return (
-    <section className="py-20 px-4 bg-gray-50">
-      <div className="container mx-auto">
+    <section className="py-20 px-6" id="changelog">
+      <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold tracking-tight mb-3 text-slate-900">
             Changelog & Roadmap
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600">
             Stay up to date with the latest features and improvements
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Changelog */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Releases */}
           <div className="lg:col-span-2 space-y-4">
-            <h3 className="font-semibold text-gray-900 mb-4">Recent Releases</h3>
-            {releases.map((release, index) => (
-              <motion.div
-                key={release.version}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl border border-gray-200 p-5"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex items-center gap-2">
-                    <Tag className="h-4 w-4 text-cyan-500" />
-                    <span className="font-semibold text-gray-900">{release.version}</span>
+            <h3 className="font-semibold text-slate-800 mb-4">Recent Releases</h3>
+            {releases.map((release, index) => {
+              const typeColors: Record<string, string> = {
+                green: "bg-green-100 text-green-700",
+                amber: "bg-amber-100 text-amber-700",
+                purple: "bg-purple-100 text-purple-700",
+              }
+              return (
+                <motion.div
+                  key={release.version}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-xl border border-slate-200 p-5"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <Tag className="w-4 h-4 text-slate-400" />
+                    <span className="font-semibold text-slate-800">{release.version}</span>
+                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${typeColors[release.typeColor]}`}>
+                      {release.type}
+                    </span>
+                    <span className="text-sm text-slate-400">{release.date}</span>
                   </div>
-                  <span className={`px-2 py-0.5 text-xs rounded-full ${
-                    release.type === "major" 
-                      ? "bg-cyan-100 text-cyan-700" 
-                      : "bg-gray-100 text-gray-600"
-                  }`}>
-                    {release.title}
-                  </span>
-                  <span className="text-sm text-gray-500">{release.date}</span>
-                </div>
-                <ul className="space-y-2">
-                  {release.changes.map((change, i) => {
-                    const { icon: Icon, color } = changeTypeIcons[change.type]
-                    return (
-                      <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                        <Icon className={`h-4 w-4 ${color}`} />
-                        {change.text}
+                  <ul className="space-y-1.5">
+                    {release.features.map((feature, i) => (
+                      <li key={i} className="flex items-center gap-2 text-sm text-slate-600">
+                        <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+                        {feature}
                       </li>
-                    )
-                  })}
-                </ul>
-              </motion.div>
-            ))}
-            
+                    ))}
+                  </ul>
+                </motion.div>
+              )
+            })}
             <a
               href="https://github.com/rexdivakar/HippocampAI/releases"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-cyan-600 hover:text-cyan-700 font-medium mt-2"
+              className="inline-flex items-center gap-2 text-sm text-cyan-600 hover:text-cyan-700 font-medium"
             >
               View all releases
-              <ExternalLink className="h-4 w-4" />
+              <ExternalLink className="w-4 h-4" />
             </a>
           </div>
 
           {/* Roadmap */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">Roadmap</h3>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-2xl border border-gray-200 p-5"
-            >
-              <ul className="space-y-4">
-                {roadmap.map((item, index) => (
-                  <li key={index} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-700">{item.title}</span>
-                    <span className="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
-                      {item.status}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              
-              <div className="mt-6 pt-4 border-t border-gray-100">
-                <a
-                  href="https://github.com/rexdivakar/HippocampAI/issues/new"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-cyan-600 hover:text-cyan-700 font-medium"
+            <h3 className="font-semibold text-slate-800 mb-4">Roadmap</h3>
+            <div className="bg-white rounded-xl border border-slate-200 p-5 space-y-4">
+              {roadmap.map((item, index) => (
+                <motion.div
+                  key={item.feature}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center justify-between"
                 >
-                  Request a feature →
-                </a>
-              </div>
-            </motion.div>
+                  <span className="text-sm text-slate-700">{item.feature}</span>
+                  <span className="text-xs text-slate-400">{item.status}</span>
+                </motion.div>
+              ))}
+              <a
+                href="https://github.com/rexdivakar/HippocampAI/issues/new"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm text-cyan-600 hover:text-cyan-700 font-medium pt-2"
+              >
+                Request a feature →
+              </a>
+            </div>
           </div>
         </div>
       </div>

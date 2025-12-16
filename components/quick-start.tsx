@@ -10,8 +10,8 @@ const steps = [
     step: "1",
     title: "Install",
     description: "Get started with pip",
-    code: "pip install\nhippocamp-ai",
-    singleLine: "pip install hippocamp-ai",
+    code: "pip install\nhippocampai",
+    singleLine: "pip install hippocampai",
   },
   {
     step: "2",

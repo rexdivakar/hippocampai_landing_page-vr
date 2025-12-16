@@ -605,27 +605,27 @@ export function ExamplesContent() {
   const CodeBlock = ({ code, id, output }: { code: string; id: string; output?: string }) => (
     <div className="space-y-2">
       <div className="relative group">
-        <div className="bg-gray-900 rounded-xl overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
-            <span className="text-xs text-gray-400">python</span>
+        <div className="bg-slate-900 rounded-xl overflow-hidden border border-slate-800">
+          <div className="flex items-center justify-between px-4 py-2 bg-slate-800/50 border-b border-slate-800">
+            <span className="text-xs text-slate-400">python</span>
             <button
               onClick={() => copyCode(code, id)}
-              className="text-gray-400 hover:text-white transition-colors p-1"
+              className="text-slate-400 hover:text-white transition-colors p-1"
             >
               {copiedCode === id ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
             </button>
           </div>
           <pre className="p-4 overflow-x-auto max-h-[400px]">
-            <code className="text-sm text-gray-300 font-mono whitespace-pre">{code}</code>
+            <code className="text-sm text-slate-300 font-mono whitespace-pre">{code}</code>
           </pre>
         </div>
       </div>
       {output && (
-        <div className="bg-gray-100 rounded-xl p-4">
-          <div className="text-xs text-gray-500 mb-2 flex items-center gap-1">
+        <div className="bg-slate-100 rounded-xl p-4 border border-slate-200">
+          <div className="text-xs text-slate-500 mb-2 flex items-center gap-1">
             <Play className="h-3 w-3" /> Output
           </div>
-          <pre className="text-sm text-gray-700 font-mono whitespace-pre-wrap">{output}</pre>
+          <pre className="text-sm text-slate-700 font-mono whitespace-pre-wrap">{output}</pre>
         </div>
       )}
     </div>
@@ -635,12 +635,12 @@ export function ExamplesContent() {
   const activeExampleCode = exampleCode[activeExample] || []
 
   return (
-    <div className="pt-20 min-h-screen">
+    <div className="pt-20 min-h-screen bg-background">
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Examples</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Examples</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Learn how to use HippocampAI with practical, real-world examples
           </p>
         </div>
@@ -653,15 +653,15 @@ export function ExamplesContent() {
               onClick={() => setActiveExample(example.id)}
               className={`text-left p-5 rounded-2xl border transition-all ${
                 activeExample === example.id
-                  ? "border-cyan-500 bg-cyan-50 shadow-lg"
-                  : "border-gray-200 bg-white hover:border-cyan-300 hover:shadow"
+                  ? "border-primary bg-primary/5 shadow-lg"
+                  : "border-border bg-card hover:border-primary/50 hover:shadow"
               }`}
             >
               <div className={`inline-flex p-2.5 rounded-xl ${example.iconBg} mb-3`}>
                 <example.icon className={`h-5 w-5 ${example.iconColor}`} />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-1">{example.title}</h3>
-              <p className="text-sm text-gray-600 mb-3">{example.description}</p>
+              <h3 className="font-semibold text-foreground mb-1">{example.title}</h3>
+              <p className="text-sm text-muted-foreground mb-3">{example.description}</p>
               <div className="flex items-center gap-3 text-xs">
                 <span className={`px-2 py-1 rounded-full ${
                   example.difficulty === "Beginner" ? "bg-emerald-100 text-emerald-700" :
@@ -670,7 +670,7 @@ export function ExamplesContent() {
                 }`}>
                   {example.difficulty}
                 </span>
-                <span className="text-gray-500">{example.time}</span>
+                <span className="text-muted-foreground">{example.time}</span>
               </div>
             </button>
           ))}
@@ -678,14 +678,14 @@ export function ExamplesContent() {
 
         {/* Active Example Content */}
         {activeExampleData && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-8">
+          <div className="bg-card rounded-2xl border border-border p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className={`p-3 ${activeExampleData.iconBg} rounded-xl`}>
                 <activeExampleData.icon className={`h-6 w-6 ${activeExampleData.iconColor}`} />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">{activeExampleData.title}</h2>
-                <p className="text-gray-500">{activeExampleData.description}</p>
+                <h2 className="text-2xl font-bold text-foreground">{activeExampleData.title}</h2>
+                <p className="text-muted-foreground">{activeExampleData.description}</p>
               </div>
             </div>
 
@@ -693,12 +693,12 @@ export function ExamplesContent() {
               {activeExampleCode.map((step, index) => (
                 <div key={index}>
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-cyan-500 text-white flex items-center justify-center font-semibold text-sm">
+                    <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">
                       {index + 1}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{step.title}</h3>
-                      <p className="text-sm text-gray-500">{step.description}</p>
+                      <h3 className="font-semibold text-foreground">{step.title}</h3>
+                      <p className="text-sm text-muted-foreground">{step.description}</p>
                     </div>
                   </div>
                   <CodeBlock code={step.code} id={`${activeExample}-${index}`} output={step.output} />
@@ -706,12 +706,12 @@ export function ExamplesContent() {
               ))}
             </div>
 
-            <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
+            <div className="mt-8 pt-6 border-t border-border flex items-center justify-between">
               <a
                 href={`https://github.com/rexdivakar/HippocampAI/tree/main/examples`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium"
+                className="flex items-center gap-2 text-primary hover:text-primary/80 font-medium"
               >
                 <Code className="h-4 w-4" />
                 View more examples on GitHub
@@ -719,7 +719,7 @@ export function ExamplesContent() {
               </a>
               <Link
                 href="/docs"
-                className="flex items-center gap-2 px-5 py-2.5 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-colors font-medium"
+                className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
               >
                 Read Documentation
               </Link>

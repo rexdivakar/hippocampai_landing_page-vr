@@ -4,12 +4,12 @@ import { ExamplesContent } from "@/components/examples-content"
 
 export const metadata = {
   title: "Examples - HippocampAI",
-  description: "Code examples and tutorials for HippocampAI - Enterprise Memory for AI Agents",
+  description: "Code examples and tutorials for HippocampAI - Long-term memory engine for LLMs",
 }
 
 export default function ExamplesPage() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-white text-slate-900">
       <Navigation />
       <ExamplesContent />
       <Footer />
