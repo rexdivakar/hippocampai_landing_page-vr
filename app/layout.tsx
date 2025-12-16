@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "HippocampAI — Memory Layer for Intelligent Systems",
   description: "Open-source long-term memory engine for LLMs. Persistent memory, hybrid retrieval, consolidation, and agent-oriented workflows.",
   keywords: ["AI memory", "LLM memory", "long-term memory", "vector database", "semantic search", "AI agents"],
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 }
 
 export default function RootLayout({
