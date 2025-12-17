@@ -91,7 +91,7 @@ export function Hero() {
               </div>
               <div className="flex-1 flex justify-center">
                 <div className="px-4 py-1 bg-white rounded-md border border-slate-200 text-xs text-slate-500 font-mono">
-                  localhost:8000/memories
+                  HippocampAI Memories
                 </div>
               </div>
             </div>
@@ -116,9 +116,9 @@ export function Hero() {
                 <div className="p-3 bg-slate-50 rounded-lg">
                   <div className="text-xs font-medium text-slate-700 mb-2">Popular Tags</div>
                   <div className="flex flex-wrap gap-1">
-                    <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded text-xs">#event</span>
                     <span className="px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-xs">#preference</span>
-                    <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">#conversation</span>
+                    <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded text-xs">#meeting</span>
+                    <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">#ui</span>
                   </div>
                 </div>
               </div>
@@ -126,14 +126,14 @@ export function Hero() {
               {/* Main content */}
               <div className="col-span-5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="text-sm font-medium text-slate-800">Memories <span className="text-slate-400">15</span></div>
+                  <div className="text-sm font-medium text-slate-800">Memories <span className="text-slate-400">24</span></div>
                   <input type="text" placeholder="Search memories..." className="px-3 py-1.5 text-xs border border-slate-200 rounded-lg w-32" readOnly />
                 </div>
                 <div className="space-y-2">
                   {[
-                    { type: "event", time: "10 days ago", content: "conda activate hippo" },
-                    { type: "preference", time: "11 days ago", content: "i prefer biscuits" },
-                    { type: "event", time: "11 days ago", content: "User: how are you?" },
+                    { type: "preference", time: "2 hours ago", content: "User prefers dark mode interface" },
+                    { type: "event", time: "1 day ago", content: "Scheduled meeting with team for Friday 3pm" },
+                    { type: "preference", time: "3 days ago", content: "User likes concise, technical responses" },
                   ].map((memory, i) => (
                     <div key={i} className="p-3 bg-slate-50 rounded-lg border border-slate-100">
                       <div className="flex items-center gap-2 mb-1">
@@ -154,23 +154,23 @@ export function Hero() {
                 <div className="space-y-3">
                   <div>
                     <div className="text-xs text-slate-500 mb-1">Content</div>
-                    <div className="text-sm text-slate-800">conda activate hippo</div>
+                    <div className="text-sm text-slate-800">User prefers dark mode interface</div>
                   </div>
                   <div>
                     <div className="text-xs text-slate-500 mb-1">Tags</div>
                     <div className="flex gap-1">
-                      <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded text-xs">#event</span>
-                      <span className="px-2 py-0.5 bg-rose-100 text-rose-700 rounded text-xs">#important</span>
+                      <span className="px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-xs">#preference</span>
+                      <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">#ui</span>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <div className="text-xs text-slate-500 mb-1">Confidence</div>
-                      <div className="text-lg font-semibold text-slate-800">0.90</div>
+                      <div className="text-xs text-slate-500 mb-1">Relevance</div>
+                      <div className="text-lg font-semibold text-slate-800">0.95</div>
                     </div>
                     <div>
                       <div className="text-xs text-slate-500 mb-1">Importance</div>
-                      <div className="text-lg font-semibold text-slate-800">8.00</div>
+                      <div className="text-lg font-semibold text-slate-800">0.85</div>
                     </div>
                   </div>
                 </div>
