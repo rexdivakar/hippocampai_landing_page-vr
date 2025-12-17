@@ -132,7 +132,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-slate-500">
-            © 2025 HippocampAI. Licensed under{" "}
+            © 2026 HippocampAI. Licensed under{" "}
             <a
               href="https://opensource.org/licenses/Apache-2.0"
               target="_blank"
