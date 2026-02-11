@@ -6,56 +6,68 @@ import { Copy, Check, Github, BookOpen } from "lucide-react"
 import Link from "next/link"
 
 const codeExamples: Record<string, string> = {
-  "Store Memory": `from hippocamp import MemoryEngine
+  "Remember & Recall": `from hippocampai import MemoryClient
 
-# Initialize the engine
-engine = MemoryEngine(api_key="your_openai_key")
+# Initialize client
+client = MemoryClient()
 
-# Store a memory with metadata
-engine.store(
-    content="User prefers dark mode interface",
-    user_id="user_123",
-    metadata={
-        "type": "preference",
-        "category": "ui_settings"
-    }
+# Store a memory
+client.remember(
+    "User prefers oat milk and works remotely on Tuesdays",
+    user_id="alice",
+    type="preference"
+)
+
+# Recall relevant memories
+results = client.recall("work preferences", user_id="alice")
+for r in results:
+    print(f"{r.memory.text} (relevance: {r.score:.2f}")`,
+  "Knowledge Graph": `# Knowledge graph is built automatically on every remember()
+client.remember(
+    "Alice manages the ML team and reports to Bob",
+    user_id="org_123",
+    type="fact"
+)
+
+# Query entities and relationships
+entities = client.graph.get_entities(user_id="org_123")
+relations = client.graph.get_relations(entity="Alice")
+
+# Graph-aware retrieval (vector + BM25 + graph)
+results = client.recall(
+    "Who does Alice work with?",
+    user_id="org_123",
+    use_graph=True
 )`,
-  "Search Memories": `# Search for relevant memories
-memories = engine.search(
-    query="What are the user's UI preferences?",
-    user_id="user_123",
-    limit=5
+  "Multi-Agent": `# Shared memory space for agent collaboration
+client.remember(
+    "Customer reported billing issue #4521",
+    user_id="support_team",
+    agent_id="triage_agent",
+    type="event"
 )
 
-for memory in memories:
-    print(f"{memory.content}")
-    print(f"Relevance: {memory.relevance:.2f}")`,
-  "Session Tracking": `# Create a conversation session
-session = engine.create_session(
-    user_id="user_123",
-    session_id="chat_001"
-)
-
-# Add messages to session
-session.add_message(role="user", content="Hello!")
-session.add_message(role="assistant", content="Hi there!")
-
-# Get conversation context
-context = session.get_context(limit=10)`,
-  "Sleep Phase": `# Run memory consolidation
-result = engine.sleep_phase(
-    user_id="user_123",
+# Another agent recalls shared context
+results = client.recall(
+    "open billing issues",
+    user_id="support_team",
+    agent_id="resolution_agent"
+)`,
+  "Sleep Phase": `# Run memory consolidation (like human sleep)
+result = client.sleep_phase(
+    user_id="alice",
     consolidate=True,
     decay_importance=True,
     prune_threshold=0.3
 )
 
 print(f"Consolidated: {result.consolidated}")
-print(f"Pruned: {result.pruned}")`
+print(f"Pruned: {result.pruned}")
+print(f"Health score: {result.health_score}")`
 }
 
 export function DeveloperExperience() {
-  const [activeTab, setActiveTab] = useState("Store Memory")
+  const [activeTab, setActiveTab] = useState("Remember & Recall")
   const [copied, setCopied] = useState(false)
 
   const copyCode = () => {
@@ -78,9 +90,15 @@ export function DeveloperExperience() {
               Simple API, powerful features
             </h2>
             <p className="text-lg text-slate-600 mb-6">
-              Get started in minutes with our intuitive Python SDK. Store, search, and manage 
-              memories with just a few lines of code.
+              Get started in minutes with our intuitive Python SDK. 102+ methods covering
+              memory storage, retrieval, knowledge graphs, multi-agent coordination, and more.
             </p>
+
+            {/* Install command */}
+            <div className="bg-slate-900 rounded-lg p-3 mb-6 flex items-center justify-between">
+              <code className="text-sm text-cyan-400 font-mono">pip install hippocampai</code>
+              <span className="text-xs text-slate-500 font-mono">PyPI</span>
+            </div>
 
             {/* Tabs */}
             <div className="flex flex-wrap gap-2 mb-6">
@@ -148,7 +166,7 @@ export function DeveloperExperience() {
                   )}
                 </button>
               </div>
-              
+
               {/* Code */}
               <pre className="p-6 overflow-x-auto">
                 <code className="text-sm text-slate-300 font-mono whitespace-pre">

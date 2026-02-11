@@ -16,16 +16,16 @@ const steps = [
   {
     step: "2",
     title: "Initialize",
-    description: "Set up your engine",
-    code: 'engine =\nMemoryEngine(api_key="your_key")',
-    singleLine: 'engine = MemoryEngine(api_key="your_key")',
+    description: "Create a memory client",
+    code: "from hippocampai\nimport MemoryClient\nclient = MemoryClient()",
+    singleLine: "from hippocampai import MemoryClient; client = MemoryClient()",
   },
   {
     step: "3",
-    title: "Use",
-    description: "Store and retrieve",
-    code: 'engine.store("Your\nfirst memory")',
-    singleLine: 'engine.store("Your first memory")',
+    title: "Remember",
+    description: "Store and recall",
+    code: 'client.remember(\n  "Your first memory",\n  user_id="alice"\n)',
+    singleLine: 'client.remember("Your first memory", user_id="alice")',
   },
 ]
 
@@ -39,18 +39,18 @@ export function QuickStart() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gray-50">
-      <div className="container mx-auto">
+    <section className="py-20 px-6 bg-slate-50/50" id="quick-start">
+      <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold tracking-tight mb-3 text-slate-900">
             Get started in 3 steps
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Add long-term memory to your AI application in minutes
           </p>
         </motion.div>
@@ -65,24 +65,24 @@ export function QuickStart() {
               transition={{ delay: index * 0.1 }}
               className="flex-1 relative"
             >
-              <div className="bg-white rounded-2xl border border-gray-200 p-6 h-full shadow-sm hover:shadow-lg transition-shadow">
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 h-full hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-8 h-8 rounded-full bg-cyan-500 text-white flex items-center justify-center font-semibold text-sm">
                     {step.step}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{step.title}</h3>
-                    <p className="text-sm text-gray-500">{step.description}</p>
+                    <h3 className="font-semibold text-slate-900">{step.title}</h3>
+                    <p className="text-sm text-slate-500">{step.description}</p>
                   </div>
                 </div>
-                
+
                 <div className="relative">
-                  <div className="bg-gray-900 rounded-xl p-4 pr-12 min-h-[72px] flex items-center">
+                  <div className="bg-slate-900 rounded-xl p-4 pr-12 min-h-[72px] flex items-center">
                     <code className="text-sm text-cyan-400 font-mono whitespace-pre-wrap">{step.code}</code>
                   </div>
                   <button
                     onClick={() => copyCode(step.singleLine, index)}
-                    className="absolute right-3 top-3 p-2 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-gray-800"
+                    className="absolute right-3 top-3 p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800"
                     title="Copy to clipboard"
                   >
                     {copiedIndex === index ? (
@@ -95,7 +95,7 @@ export function QuickStart() {
               </div>
 
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gray-300 z-10" />
+                <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-slate-300 z-10" />
               )}
             </motion.div>
           ))}

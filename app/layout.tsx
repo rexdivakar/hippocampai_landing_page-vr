@@ -16,9 +16,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "HippocampAI — Memory Layer for Intelligent Systems",
-  description: "Open-source long-term memory engine for LLMs. Persistent memory, hybrid retrieval, consolidation, and agent-oriented workflows.",
-  keywords: ["AI memory", "LLM memory", "long-term memory", "vector database", "semantic search", "AI agents"],
+  title: "HippocampAI — Enterprise Memory Engine for Intelligent AI Systems",
+  description: "Open-source memory engine with knowledge graphs, hybrid retrieval, multi-agent collaboration, and 102+ API methods. Give your AI systems human-like memory.",
+  keywords: ["AI memory", "LLM memory", "knowledge graph", "vector database", "semantic search", "AI agents", "multi-agent", "memory engine", "RAG"],
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

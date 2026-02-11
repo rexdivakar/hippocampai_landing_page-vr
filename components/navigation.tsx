@@ -5,10 +5,13 @@ import { useState } from "react"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
-  { href: "/#how-it-works", label: "Capabilities" },
+  { href: "/#capabilities", label: "Features" },
   { href: "/#use-cases", label: "Use Cases" },
+  { href: "/#comparison", label: "Compare" },
+  { href: "/docs", label: "Docs" },
+  { href: "/docs#infrastructure", label: "Infra" },
+  { href: "/examples", label: "Examples" },
   { href: "https://github.com/rexdivakar/HippocampAI", label: "GitHub", external: true },
-  { href: "/docs", label: "Documentation" },
 ]
 
 // Brain logo SVG component matching the HippocampAI brand
@@ -28,8 +31,8 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl">
       <div className="mx-auto max-w-6xl flex items-center justify-between px-6 h-16">
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="flex items-center gap-3 hover:opacity-80 transition-opacity"
         >
           <BrainLogo className="w-9 h-9 text-cyan-500" />
@@ -72,10 +75,10 @@ export function Navigation() {
             Get Started
           </Link>
         </div>
-          
+
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+          className="md:hidden p-2 text-slate-500 hover:text-slate-900"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

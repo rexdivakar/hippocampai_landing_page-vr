@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion"
 import { useState } from "react"
-import { 
-  Layers, Cpu, Filter, Database, Search, Moon,
+import {
+  Layers, Cpu, Filter, Database, Search, Moon, GitBranch,
   ArrowRight, MessageSquare, Settings, FileText, Tag
 } from "lucide-react"
 
@@ -12,14 +12,14 @@ const pipelineStages = [
     id: "ingestion",
     icon: Layers,
     title: "Ingestion",
-    subtitle: "Raw data enters via API",
+    subtitle: "remember() API call",
     color: "cyan",
     details: {
-      description: "Content enters the system through the Python SDK or REST API with rich metadata support.",
+      description: "Content enters the system through the Python SDK (remember/recall) or REST API with rich metadata support.",
       features: [
         "Content normalization and cleaning",
-        "Automatic entity extraction",
-        "User and session scoping",
+        "Automatic entity & relationship extraction",
+        "User, session, and agent scoping",
         "Custom metadata attachment",
         "Importance scoring (0-1)"
       ]
@@ -29,14 +29,14 @@ const pipelineStages = [
     id: "embedding",
     icon: Cpu,
     title: "Embedding",
-    subtitle: "OpenAI or local models",
+    subtitle: "OpenAI, Anthropic, Ollama",
     color: "purple",
     details: {
-      description: "Text is converted to 1536-dimensional vector representations for semantic understanding.",
+      description: "Text is converted to vector representations using your choice of embedding provider.",
       features: [
-        "OpenAI text-embedding-3-small (default)",
-        "Ollama local model support",
+        "OpenAI, Anthropic, Groq, Ollama support",
         "Sentence Transformers / HuggingFace",
+        "Safe embedding model migration",
         "Batch processing for efficiency",
         "Custom embedding providers"
       ]
@@ -60,19 +60,36 @@ const pipelineStages = [
     }
   },
   {
+    id: "knowledge-graph",
+    icon: GitBranch,
+    title: "Knowledge Graph",
+    subtitle: "Entity & relation extraction",
+    color: "amber",
+    details: {
+      description: "Real-time extraction of entities and relationships builds a structured knowledge graph alongside vector storage.",
+      features: [
+        "Automatic entity extraction",
+        "Relationship mapping",
+        "Custom schema definitions",
+        "Incremental graph building",
+        "Graph-aware retrieval support"
+      ]
+    }
+  },
+  {
     id: "storage",
     icon: Database,
     title: "Storage",
-    subtitle: "Qdrant vector database",
-    color: "amber",
+    subtitle: "Qdrant + Redis + SQLite",
+    color: "cyan",
     details: {
-      description: "Vectors stored in Qdrant with HNSW indexing, metadata persisted to SQLite.",
+      description: "Vectors stored in Qdrant with HNSW indexing, Redis caching for 50-100x speed, metadata persisted to SQLite.",
       features: [
         "Qdrant vector database",
+        "Redis caching (50-100x faster)",
         "SQLite metadata storage",
-        "Docker volume persistence",
-        "Namespace isolation per user",
-        "HNSW indexing for fast search"
+        "Tiered storage (hot/warm/cold)",
+        "Namespace isolation per user/agent"
       ]
     }
   },
@@ -80,16 +97,16 @@ const pipelineStages = [
     id: "retrieval",
     icon: Search,
     title: "Retrieval",
-    subtitle: "Hybrid search (BM25 + vector)",
+    subtitle: "3-way fusion (vector + BM25 + graph)",
     color: "rose",
     details: {
-      description: "Hybrid retrieval combines semantic vector search with BM25 keyword matching.",
+      description: "3-way Reciprocal Rank Fusion combines vector similarity, BM25 keyword matching, and graph traversal.",
       features: [
         "Vector similarity search",
         "BM25 keyword matching",
-        "Reciprocal Rank Fusion",
-        "40% better accuracy",
-        "Configurable weights"
+        "Knowledge graph traversal",
+        "Reciprocal Rank Fusion (RRF)",
+        "40% better accuracy vs vector-only"
       ]
     }
   }
@@ -100,29 +117,29 @@ const categories = [
     icon: MessageSquare,
     title: "Memory Types",
     color: "cyan",
-    items: ["Events (conversations)", "Preferences (user settings)", "Facts (knowledge)", "Custom metadata"]
+    items: ["Preferences", "Facts & knowledge", "Events & conversations", "Procedural (behavioral)", "Custom metadata"]
   },
   {
     icon: Cpu,
     title: "Processing",
     color: "purple",
-    items: ["OpenAI embeddings", "Local model support", "Importance scoring", "Tag extraction"]
+    items: ["Multi-provider embeddings", "Knowledge graph extraction", "Importance scoring", "Relevance feedback loops"]
   },
   {
     icon: Database,
-    title: "Storage",
+    title: "Storage & Caching",
     color: "green",
-    items: ["Qdrant vector DB", "SQLite metadata", "Docker volumes", "Persistent storage"]
+    items: ["Qdrant vector DB", "Redis caching (50-100x)", "Tiered storage", "Export/import"]
   },
   {
     icon: Moon,
     title: "Sleep Phase",
     color: "amber",
-    items: ["Memory consolidation", "Importance decay", "Duplicate merging", "Auto-optimization"]
+    items: ["Memory consolidation", "Importance decay", "Auto-healing", "Predictive analytics"]
   }
 ]
 
-const techStack = ["Python", "FastAPI", "Qdrant", "OpenAI", "Docker", "SQLite"]
+const techStack = ["Python", "FastAPI", "Qdrant", "Redis", "OpenAI", "Anthropic", "Docker", "React"]
 
 export function HowItWorks() {
   const [activeStage, setActiveStage] = useState<string | null>(null)

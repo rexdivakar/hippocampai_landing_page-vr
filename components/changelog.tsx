@@ -5,48 +5,67 @@ import { Tag, Sparkles, ExternalLink } from "lucide-react"
 
 const releases = [
   {
-    version: "v1.0.0",
-    type: "Stable Release",
+    version: "v0.5.0",
+    type: "Latest Release",
+    typeColor: "cyan",
+    date: "Feb 2026",
+    features: [
+      "Knowledge graph with real-time entity extraction",
+      "Graph-aware retrieval (vector + BM25 + graph RRF)",
+      "Relevance feedback loop with decay scoring",
+      "Memory triggers (webhooks, websocket, log actions)",
+      "Procedural memory & prompt self-optimization",
+      "Embedding model migration with Celery",
+    ]
+  },
+  {
+    version: "v0.4.0",
+    type: "Feature Release",
+    typeColor: "green",
+    date: "Jan 2026",
+    features: [
+      "Multi-agent collaboration with shared memory",
+      "Predictive analytics & pattern forecasting",
+      "Auto-healing memory system",
+      "React dashboard with full analytics UI",
+      "Plugin system (processors, scorers, retrievers)",
+      "Memory namespaces with permissions",
+    ]
+  },
+  {
+    version: "v0.3.0",
+    type: "Feature Release",
     typeColor: "green",
     date: "Dec 2025",
     features: [
-      "Production-ready memory engine",
-      "Sleep Phase memory consolidation",
-      "Built-in dashboard UI with filters",
-      "Hybrid retrieval (BM25 + vector)",
-      "40% better retrieval accuracy"
+      "SaaS platform (auth, rate limiting, Celery)",
+      "Export/import (JSON, Parquet, CSV)",
+      "Tiered storage (hot/warm/cold)",
+      "Offline mode with operation queueing",
+      "Bi-temporal facts with time-travel queries",
+      "Context assembly with token budgeting",
     ]
   },
   {
-    version: "v0.9.0",
-    type: "Beta Release",
+    version: "v0.2.0",
+    type: "Stable Release",
     typeColor: "amber",
     date: "Nov 2025",
     features: [
-      "Auto-deduplication with semantic similarity",
-      "Multi-user and session support",
-      "Importance scoring system",
-      "Docker Compose deployment"
+      "Production-ready memory engine",
+      "Sleep Phase memory consolidation",
+      "Hybrid retrieval (BM25 + vector)",
+      "Multi-user & session support",
     ]
   },
-  {
-    version: "v0.8.0",
-    type: "Alpha Release",
-    typeColor: "purple",
-    date: "Oct 2025",
-    features: [
-      "Core memory engine",
-      "Qdrant vector database integration",
-      "OpenAI embeddings support"
-    ]
-  }
 ]
 
 const roadmap = [
-  { feature: "GraphRAG Integration", status: "Planned" },
-  { feature: "LangChain Memory Adapter", status: "Planned" },
-  { feature: "Webhook Notifications", status: "Planned" },
-  { feature: "Memory Analytics Dashboard", status: "Planned" },
+  { feature: "GraphRAG with advanced traversal", status: "In Progress" },
+  { feature: "Real-time streaming memory updates", status: "Planned" },
+  { feature: "Memory versioning & rollback", status: "Planned" },
+  { feature: "Visual knowledge graph explorer", status: "Planned" },
+  { feature: "Federated memory across instances", status: "Exploring" },
 ]
 
 export function Changelog() {
@@ -73,6 +92,7 @@ export function Changelog() {
             <h3 className="font-semibold text-slate-800 mb-4">Recent Releases</h3>
             {releases.map((release, index) => {
               const typeColors: Record<string, string> = {
+                cyan: "bg-cyan-100 text-cyan-700",
                 green: "bg-green-100 text-green-700",
                 amber: "bg-amber-100 text-amber-700",
                 purple: "bg-purple-100 text-purple-700",
@@ -97,7 +117,7 @@ export function Changelog() {
                   <ul className="space-y-1.5">
                     {release.features.map((feature, i) => (
                       <li key={i} className="flex items-center gap-2 text-sm text-slate-600">
-                        <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+                        <Sparkles className="w-3.5 h-3.5 text-cyan-500 flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -130,7 +150,13 @@ export function Changelog() {
                   className="flex items-center justify-between"
                 >
                   <span className="text-sm text-slate-700">{item.feature}</span>
-                  <span className="text-xs text-slate-400">{item.status}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded ${
+                    item.status === "In Progress" ? "bg-cyan-100 text-cyan-700" :
+                    item.status === "Planned" ? "bg-slate-100 text-slate-500" :
+                    "bg-purple-100 text-purple-700"
+                  }`}>
+                    {item.status}
+                  </span>
                 </motion.div>
               ))}
               <a

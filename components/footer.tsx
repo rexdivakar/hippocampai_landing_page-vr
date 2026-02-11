@@ -16,16 +16,18 @@ function BrainLogo({ className }: { className?: string }) {
 
 const footerLinks = {
   product: [
-    { label: "Features", href: "/#how-it-works" },
-    { label: "Architecture", href: "/#how-it-works" },
+    { label: "Features", href: "/#capabilities" },
+    { label: "How It Works", href: "/#how-it-works" },
     { label: "Use Cases", href: "/#use-cases" },
+    { label: "Compare", href: "/#comparison" },
     { label: "Performance", href: "/#performance" },
   ],
   resources: [
     { label: "Documentation", href: "/docs" },
     { label: "Examples", href: "/examples" },
     { label: "API Reference", href: "/docs#api-reference" },
-    { label: "Quick Start", href: "/docs#quick-start" },
+    { label: "Quick Start", href: "/#quick-start" },
+    { label: "FAQ", href: "/#faq" },
   ],
   community: [
     { label: "GitHub", href: "https://github.com/rexdivakar/HippocampAI", external: true },

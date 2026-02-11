@@ -5,31 +5,36 @@ import { motion } from "framer-motion"
 const integrations = [
   {
     category: "AI",
-    title: "Embedding Providers",
+    title: "LLM & Embedding Providers",
     items: [
-      { name: "OpenAI", desc: "text-embedding-3-small" },
+      { name: "OpenAI", desc: "GPT + Embeddings" },
+      { name: "Anthropic", desc: "Claude models" },
+      { name: "Groq", desc: "Fast inference" },
       { name: "Ollama", desc: "Local models" },
-      { name: "Sentence Transformers", desc: "HuggingFace" },
-      { name: "Custom", desc: "Any embedding API" },
+      { name: "HuggingFace", desc: "Sentence Transformers" },
+      { name: "Custom", desc: "Any provider" },
     ]
   },
   {
     category: "DB",
-    title: "Vector Storage",
+    title: "Storage Backends",
     items: [
       { name: "Qdrant", desc: "Default (recommended)" },
-      { name: "In-Memory", desc: "Development" },
-      { name: "Persistent", desc: "Docker volumes" },
+      { name: "Redis", desc: "50-100x caching" },
+      { name: "SQLite", desc: "Metadata store" },
+      { name: "Tiered", desc: "Hot/warm/cold" },
     ]
   },
   {
     category: "FW",
-    title: "AI Frameworks",
+    title: "Frameworks & Platforms",
     items: [
-      { name: "LangChain", desc: "Memory integration" },
+      { name: "LangChain", desc: "Memory adapter" },
       { name: "LlamaIndex", desc: "RAG pipelines" },
       { name: "AutoGen", desc: "Multi-agent" },
-      { name: "Any Python", desc: "Direct SDK" },
+      { name: "Celery", desc: "Background tasks" },
+      { name: "FastAPI", desc: "REST API" },
+      { name: "React", desc: "Dashboard UI" },
     ]
   }
 ]
@@ -48,7 +53,7 @@ export function Integrations() {
             Works with your stack
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Seamlessly integrate with popular embedding providers, vector databases, and AI frameworks
+            Seamlessly integrate with popular LLM providers, storage backends, and AI frameworks
           </p>
         </motion.div>
 

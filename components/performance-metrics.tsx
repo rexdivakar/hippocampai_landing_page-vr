@@ -8,29 +8,29 @@ const metrics = [
     icon: TrendingUp,
     value: "+40%",
     label: "Retrieval Accuracy",
-    sublabel: "vs vector-only search",
+    sublabel: "3-way fusion vs vector-only",
     color: "cyan"
   },
   {
+    icon: Zap,
+    value: "50-100x",
+    label: "Faster with Cache",
+    sublabel: "Redis caching layer",
+    color: "purple"
+  },
+  {
     icon: Database,
-    value: "30-70%",
-    label: "Storage Savings",
-    sublabel: "with deduplication",
-    color: "amber"
+    value: "1000+",
+    label: "Requests/sec",
+    sublabel: "production throughput",
+    color: "green"
   },
   {
     icon: Clock,
     value: "30 sec",
     label: "Deploy Time",
-    sublabel: "with Docker Compose",
-    color: "green"
-  },
-  {
-    icon: Zap,
-    value: "450 q/s",
-    label: "Throughput",
-    sublabel: "single server",
-    color: "purple"
+    sublabel: "pip install or Docker",
+    color: "amber"
   }
 ]
 
@@ -61,7 +61,7 @@ export function PerformanceMetrics() {
               purple: { bg: "bg-purple-50", text: "text-purple-600", value: "text-purple-600" },
             }
             const colors = colorClasses[metric.color]
-            
+
             return (
               <motion.div
                 key={metric.label}
