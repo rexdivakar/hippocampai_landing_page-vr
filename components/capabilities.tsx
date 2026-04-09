@@ -3,7 +3,8 @@
 import { motion } from "framer-motion"
 import {
   Database, Search, TrendingDown, Star, Users, Cpu,
-  GitBranch, Bell, Brain, Puzzle, Shield, BarChart3
+  GitBranch, Bell, Brain, Puzzle, Shield, BarChart3,
+  Clock, Layers
 } from "lucide-react"
 
 const capabilities = [
@@ -90,6 +91,20 @@ const capabilities = [
     description: "Hierarchical organization with permissions. Isolate memory spaces per user, session, team, or custom scope.",
     technical: "Bi-temporal facts with time-travel queries",
     color: "green"
+  },
+  {
+    icon: Clock,
+    title: "Prospective Memory",
+    description: "\"Remembering to remember\" — schedule future actions with time-based or event-based triggers. Supports daily, weekly, monthly, and custom cron recurrence with full lifecycle management.",
+    technical: "POST /v1/prospective/ · 9 endpoints · croniter recurrence",
+    color: "purple"
+  },
+  {
+    icon: Layers,
+    title: "Batch Operations",
+    description: "Store, fetch, or delete hundreds of memories in a single API call. Deduplication endpoint with dry_run mode lets you inspect before removing. Individual failures never abort the batch.",
+    technical: "POST /v1/memories/batch · /batch/get · /batch/delete · /deduplicate",
+    color: "cyan"
   },
 ]
 

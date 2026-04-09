@@ -6,7 +6,7 @@ import {
   Server, HelpCircle, Copy, Check, ChevronRight,
   Database, Search, Moon, Users, Tag, Shield,
   ArrowRight, ExternalLink, MessageSquare, Bot, FileText, Sparkles,
-  GitBranch, Bell, Cpu, Puzzle, BarChart3, Network
+  GitBranch, Bell, Cpu, Puzzle, BarChart3, Network, Clock
 } from "lucide-react"
 import Link from "next/link"
 
@@ -19,6 +19,8 @@ const sections = [
   { id: "knowledge-graph", label: "Knowledge Graph", icon: GitBranch },
   { id: "multi-agent", label: "Multi-Agent", icon: Users },
   { id: "api-reference", label: "API Reference", icon: Code },
+  { id: "prospective-memory", label: "Prospective Memory", icon: Clock },
+  { id: "batch-ops", label: "Batch Operations", icon: Layers },
   { id: "configuration", label: "Configuration", icon: Settings },
   { id: "deployment", label: "Deployment", icon: Server },
   { id: "infrastructure", label: "Infrastructure", icon: Network },
@@ -144,8 +146,8 @@ export function DocsContent() {
                 <p className="text-lg text-slate-600 leading-relaxed mb-4">
                   HippocampAI is a production-ready, open-source memory engine that transforms how AI systems
                   remember, reason, and learn from interactions. It provides persistent, intelligent memory
-                  capabilities with 102+ API methods covering knowledge graphs, hybrid retrieval, multi-agent
-                  collaboration, and more.
+                  capabilities with 120+ API methods covering knowledge graphs, hybrid retrieval, prospective memory,
+                  batch operations, multi-agent collaboration, and more.
                 </p>
 
                 <p className="text-slate-600 leading-relaxed mb-8">
@@ -155,8 +157,8 @@ export function DocsContent() {
                 </p>
 
                 <div className="bg-cyan-50 rounded-xl p-4 border border-cyan-100 mb-8">
-                  <p className="text-sm text-cyan-800 font-medium">Current Release: v0.5.0</p>
-                  <p className="text-sm text-cyan-700 mt-1">Knowledge graph, graph-aware retrieval, feedback loops, triggers, procedural memory, and embedding migration.</p>
+                  <p className="text-sm text-cyan-800 font-medium">Current Release: v0.5.1</p>
+                  <p className="text-sm text-cyan-700 mt-1">Prospective memory (time &amp; event triggers), batch operations, deduplication API, RemoteBackend fixes, QueryRouter stem-prefix matching, and Groq timeout improvements.</p>
                 </div>
 
                 <h2 className="text-xl font-semibold text-slate-800 mb-4">Key Features</h2>
@@ -172,6 +174,8 @@ export function DocsContent() {
                     { icon: Shield, title: "Auto-Healing", desc: "Automatic detection and repair of memory issues. Health monitoring and quality tracking built in." },
                     { icon: Puzzle, title: "Plugin System", desc: "Custom processors, scorers, retrievers, and filters. Custom schemas, tiered storage, export/import." },
                     { icon: Database, title: "SaaS Platform", desc: "Full multi-tenant platform with auth, rate limiting, Celery background tasks, and React dashboard." },
+                    { icon: Sparkles, title: "Prospective Memory", desc: "Schedule future actions with time-based or event-based triggers. Recurrence (daily/weekly/cron), priority ordering, full lifecycle management." },
+                    { icon: Layers, title: "Batch Operations", desc: "Store/get/delete N memories in a single call. Deduplication with dry_run mode. Single-memory GET by ID." },
                   ].map((feature) => (
                     <div key={feature.title} className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
                       <feature.icon className="h-5 w-5 text-cyan-500 mt-0.5 flex-shrink-0" />
@@ -222,7 +226,7 @@ export function DocsContent() {
                 <ul className="space-y-3 text-slate-600">
                   {[
                     { label: "Open Source", desc: "Apache 2.0 license, free to use and modify" },
-                    { label: "102+ API Methods", desc: "Comprehensive coverage of all memory use cases" },
+                    { label: "120+ API Methods", desc: "Comprehensive coverage of all memory use cases" },
                     { label: "Production Ready", desc: "Redis caching (50-100x faster), 1000+ RPS, auto-healing" },
                     { label: "Multi-Provider", desc: "OpenAI, Anthropic, Groq, Ollama, or any custom provider" },
                     { label: "Privacy First", desc: "Self-hosted, your data never leaves your infrastructure" },
@@ -486,6 +490,7 @@ print(f"Health score: {result.health_score}")`}
                     { type: "event", color: "cyan", title: "Events", desc: "Conversation messages, user actions, and interactions.", code: `client.remember("User asked about pricing", user_id="alice", type="event")` },
                     { type: "procedural", color: "purple", title: "Procedural", desc: "Behavioral rules learned from interaction patterns. Self-optimizing prompts.", code: `client.remember("User responds better to concise answers", user_id="alice", type="procedural")` },
                     { type: "goal", color: "rose", title: "Goals", desc: "User objectives, milestones, and progress tracking.", code: `client.remember("User wants to learn Python", user_id="alice", type="goal")` },
+                    { type: "prospective", color: "cyan", title: "Prospective", desc: "Future-oriented reminders and scheduled actions. Fire at a specific time or when a recall query matches keywords/embeddings. Supports recurrence.", code: `# Create a time-based prospective intent\nintent = client.prospective.create(\n    user_id="alice",\n    text="Follow up on Q2 roadmap",\n    trigger_type="time",\n    trigger_at="2026-04-11T09:00:00",\n    recurrence="weekly",\n)` },
                     { type: "custom", color: "slate", title: "Custom Types", desc: "Define your own memory types with custom metadata and schemas.", code: `client.remember("Completed onboarding", user_id="alice", type="milestone", metadata={"step": 3})` },
                   ].map((item) => (
                     <div key={item.type} className="p-5 bg-slate-50 rounded-xl border border-slate-100">
@@ -630,7 +635,7 @@ client.remember("My target: 50 calls/week", user_id="sales_team/alice", type="go
             {activeSection === "api-reference" && (
               <div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-2">API Reference</h1>
-                <p className="text-slate-600 mb-2">Reference for the HippocampAI Python SDK (102+ methods).</p>
+                <p className="text-slate-600 mb-2">Reference for the HippocampAI Python SDK (120+ methods).</p>
                 <p className="text-sm text-slate-500 mb-6">See the <a href="https://github.com/rexdivakar/HippocampAI/blob/main/docs/API_REFERENCE.md" target="_blank" rel="noopener noreferrer" className="text-cyan-600 hover:underline">full API reference on GitHub</a> for all methods.</p>
 
                 <h2 className="text-xl font-semibold text-slate-800 mb-4">MemoryClient</h2>
@@ -716,6 +721,61 @@ client.triggers.register(
                   id="api-triggers"
                 />
 
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Batch Operations</h2>
+                <CodeBlock
+                  code={`# Store many memories in one call
+ids = client.batch_remember([
+    {"text": "Prefers dark mode", "user_id": "alice"},
+    {"text": "Timezone: America/New_York", "user_id": "alice"},
+], user_id="alice")
+
+# Fetch a single memory by ID
+memory = client.get_memory(memory_id: str) -> Memory
+
+# Bulk fetch by ID list (silently skips not-found IDs)
+memories = client.batch_get(ids: list[str]) -> list[Memory]
+
+# Bulk delete — returns {"deleted": N, "failed": M}
+result = client.batch_delete(ids: list[str]) -> dict
+
+# Deduplicate — dry_run=True shows what would be removed
+report = client.deduplicate(user_id="alice", dry_run=True)`}
+                  language="python"
+                  id="api-batch"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Prospective Memory</h2>
+                <CodeBlock
+                  code={`# Create a time-based reminder
+intent = client.prospective.create(
+    user_id="alice",
+    text="Review Q2 roadmap with Bob",
+    trigger_type="time",           # or "event"
+    trigger_at="2026-04-11T09:00:00",
+    recurrence="weekly",           # none | daily | weekly | monthly | custom_cron
+    priority=8,                    # 0-10
+)
+
+# Create an event-based trigger (fires when keywords match recall)
+intent = client.prospective.create(
+    user_id="alice",
+    text="Check medical appointment status",
+    trigger_type="event",
+    trigger_keywords=["health", "doctor", "appointment"],
+)
+
+# Intents surface automatically during recall()
+results = client.recall("health update", user_id="alice")
+# → includes triggered intents
+
+# Lifecycle management
+client.prospective.complete(intent_id)
+client.prospective.cancel(intent_id)
+client.prospective.expire(user_id="alice")   # expire overdue intents`}
+                  language="python"
+                  id="api-prospective"
+                />
+
                 <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Export / Import</h2>
                 <CodeBlock
                   code={`# Export memories (JSON, Parquet, or CSV)
@@ -726,6 +786,219 @@ client.import_memories(path="backup.json", user_id="alice")`}
                   language="python"
                   id="api-export"
                 />
+              </div>
+            )}
+
+            {/* Prospective Memory */}
+            {activeSection === "prospective-memory" && (
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Prospective Memory</h1>
+                <p className="text-slate-600 mb-6">
+                  Prospective memory is the ability to <strong>remember to do something in the future</strong>.
+                  HippocampAI v0.5.1 adds first-class support for scheduling future actions — either at a specific
+                  time/recurrence, or when a particular topic arises in a recall query.
+                </p>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Trigger Types</h2>
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <h4 className="font-medium text-slate-800 mb-1">Time-Based</h4>
+                    <p className="text-sm text-slate-500">Fire at a specific datetime. Optional recurrence: <code>none</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>, or a custom cron expression.</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <h4 className="font-medium text-slate-800 mb-1">Event-Based</h4>
+                    <p className="text-sm text-slate-500">Fire when a <code>recall()</code> query matches trigger keywords, a regex pattern, or embedding similarity above a threshold.</p>
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Creating Intents</h2>
+                <CodeBlock
+                  code={`from hippocampai import MemoryClient
+
+client = MemoryClient()
+
+# Time-based: remind weekly
+intent = client.prospective.create(
+    user_id="alice",
+    text="Review Q2 roadmap with Bob",
+    trigger_type="time",
+    trigger_at="2026-04-11T09:00:00",
+    recurrence="weekly",   # none | daily | weekly | monthly | custom_cron
+    priority=8,            # 0-10, higher = shown first when triggered
+)
+
+# Event-based: fire when health topic is recalled
+intent = client.prospective.create(
+    user_id="alice",
+    text="Remind about follow-up appointment",
+    trigger_type="event",
+    trigger_keywords=["health", "doctor", "appointment"],
+    # Or use embedding similarity:
+    # trigger_query="medical health appointment",
+    # similarity_threshold=0.75,
+)`}
+                  language="python"
+                  id="prosp-create"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Recall Integration</h2>
+                <p className="text-slate-600 mb-4">
+                  Triggered intents surface automatically as <code>RetrievalResult</code> objects during any <code>recall()</code> call — no extra code needed.
+                </p>
+                <CodeBlock
+                  code={`# Triggered prospective intents appear in recall results
+results = client.recall("doctor update", user_id="alice")
+for r in results:
+    if r.is_prospective:
+        print(f"[REMINDER] {r.memory.text} (priority {r.memory.priority})")
+    else:
+        print(f"[MEMORY] {r.memory.text}")`}
+                  language="python"
+                  id="prosp-recall"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Lifecycle Management</h2>
+                <CodeBlock
+                  code={`# Complete an intent (marks as done, stops recurrence)
+client.prospective.complete(intent_id)
+
+# Cancel without completing
+client.prospective.cancel(intent_id)
+
+# Expire all overdue intents for a user
+client.prospective.expire(user_id="alice")
+
+# Consolidate: merge similar intents
+client.prospective.consolidate(user_id="alice")
+
+# Parse natural language → intent fields (LLM + heuristic fallback)
+parsed = client.prospective.parse(
+    "remind me every Monday to check in with Bob",
+    user_id="alice"
+)`}
+                  language="python"
+                  id="prosp-lifecycle"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">REST API Endpoints</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50">
+                        <th className="text-left p-3 border border-slate-200 font-semibold text-slate-700">Method</th>
+                        <th className="text-left p-3 border border-slate-200 font-semibold text-slate-700">Endpoint</th>
+                        <th className="text-left p-3 border border-slate-200 font-semibold text-slate-700">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["POST", "/v1/prospective/", "Create a new intent"],
+                        ["GET", "/v1/prospective/", "List all intents for a user"],
+                        ["GET", "/v1/prospective/{id}", "Get a specific intent"],
+                        ["PATCH", "/v1/prospective/{id}", "Update an intent"],
+                        ["DELETE", "/v1/prospective/{id}", "Delete an intent"],
+                        ["POST", "/v1/prospective/parse", "Parse NL text → intent fields"],
+                        ["POST", "/v1/prospective/evaluate", "Evaluate triggers now"],
+                        ["POST", "/v1/prospective/consolidate", "Merge similar intents"],
+                        ["POST", "/v1/prospective/expire", "Expire overdue intents"],
+                      ].map(([method, endpoint, desc]) => (
+                        <tr key={endpoint} className="hover:bg-slate-50">
+                          <td className="p-3 border border-slate-200">
+                            <span className={`px-2 py-0.5 rounded text-xs font-mono font-medium ${method === "GET" ? "bg-green-100 text-green-700" : method === "DELETE" ? "bg-red-100 text-red-700" : method === "PATCH" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{method}</span>
+                          </td>
+                          <td className="p-3 border border-slate-200 font-mono text-slate-600">{endpoint}</td>
+                          <td className="p-3 border border-slate-200 text-slate-600">{desc}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Batch Operations */}
+            {activeSection === "batch-ops" && (
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Batch Operations</h1>
+                <p className="text-slate-600 mb-6">
+                  HippocampAI v0.5.1 adds first-class batch endpoints so you can store, fetch, or delete
+                  hundreds of memories in a single API call. Individual failures are logged but never abort the batch.
+                </p>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Batch Store</h2>
+                <CodeBlock
+                  code={`ids = client.batch_remember([
+    {"text": "Prefers dark mode", "type": "preference"},
+    {"text": "Timezone: America/New_York", "type": "preference"},
+    {"text": "Daily standup at 10am", "type": "event"},
+], user_id="alice")
+print(ids)  # ["mem_abc", "mem_def", "mem_ghi"]`}
+                  language="python"
+                  id="batch-store"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Batch Fetch &amp; Delete</h2>
+                <CodeBlock
+                  code={`# Fetch by explicit ID list — silently skips not-found IDs
+memories = client.batch_get(["mem_abc", "mem_def", "mem_xyz"])
+
+# Single memory by ID (404 if not found)
+memory = client.get_memory("mem_abc")
+
+# Delete by ID list — returns counts
+result = client.batch_delete(["mem_abc", "mem_def"])
+# → {"deleted": 2, "failed": 0}`}
+                  language="python"
+                  id="batch-fetch"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Deduplication</h2>
+                <p className="text-slate-600 mb-4">
+                  The deduplication endpoint exposes the built-in <code>Deduplicator</code> via API.
+                  Use <code>dry_run=True</code> (the default) to inspect what would be removed before committing.
+                </p>
+                <CodeBlock
+                  code={`# Inspect first (default: dry_run=True)
+report = client.deduplicate(user_id="alice", dry_run=True)
+print(f"Would remove {report.duplicate_count} duplicates")
+print(report.groups)   # list of duplicate memory clusters
+
+# Apply deduplication
+report = client.deduplicate(user_id="alice", dry_run=False)`}
+                  language="python"
+                  id="batch-dedup"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">REST API Endpoints</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50">
+                        <th className="text-left p-3 border border-slate-200 font-semibold text-slate-700">Method</th>
+                        <th className="text-left p-3 border border-slate-200 font-semibold text-slate-700">Endpoint</th>
+                        <th className="text-left p-3 border border-slate-200 font-semibold text-slate-700">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["POST", "/v1/memories/batch", "Store N memories in one request"],
+                        ["POST", "/v1/memories/batch/get", "Fetch N memories by ID list"],
+                        ["POST", "/v1/memories/batch/delete", "Delete N memories; returns {deleted, failed}"],
+                        ["POST", "/v1/memories/deduplicate", "Deduplicate; supports dry_run=true"],
+                        ["GET", "/v1/memories/{memory_id}", "Fetch a single memory by ID (404 on miss)"],
+                        ["GET", "/metrics", "Prometheus scrape endpoint"],
+                      ].map(([method, endpoint, desc]) => (
+                        <tr key={endpoint} className="hover:bg-slate-50">
+                          <td className="p-3 border border-slate-200">
+                            <span className={`px-2 py-0.5 rounded text-xs font-mono font-medium ${method === "GET" ? "bg-green-100 text-green-700" : method === "DELETE" ? "bg-red-100 text-red-700" : "bg-blue-100 text-blue-700"}`}>{method}</span>
+                          </td>
+                          <td className="p-3 border border-slate-200 font-mono text-slate-600">{endpoint}</td>
+                          <td className="p-3 border border-slate-200 text-slate-600">{desc}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
 
@@ -1110,12 +1383,12 @@ docker-compose logs -f`}
                           <span className="px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs font-medium border border-green-200">API Framework</span>
                         </div>
                         <p className="text-slate-600 text-sm leading-relaxed mb-3">
-                          High-performance async Python web framework powering the REST API layer. Provides auto-generated OpenAPI docs, request validation, and async request handling for all 102+ API methods.
+                          High-performance async Python web framework powering the REST API layer. Provides auto-generated OpenAPI docs, request validation, and async request handling for all 120+ API methods.
                         </p>
                         <div className="grid sm:grid-cols-2 gap-2">
                           <div className="flex items-center gap-2 text-sm text-slate-600">
                             <Check className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />
-                            102+ REST API endpoints
+                            120+ REST API endpoints
                           </div>
                           <div className="flex items-center gap-2 text-sm text-slate-600">
                             <Check className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0" />

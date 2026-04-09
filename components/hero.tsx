@@ -20,7 +20,7 @@ export function Hero() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-sm text-cyan-700">
             <Sparkles className="w-3.5 h-3.5" />
-            v0.5.0 — Knowledge Graph, Multi-Agent, Procedural Memory
+            v0.5.1 — Prospective Memory, Batch Operations, RemoteBackend Fixes
           </div>
 
           {/* Headline */}
@@ -33,7 +33,7 @@ export function Hero() {
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Production-ready memory layer with knowledge graphs, hybrid retrieval,
-            multi-agent collaboration, and 102+ API methods. Give your AI systems
+            prospective memory, multi-agent collaboration, and 120+ API methods. Give your AI systems
             human-like memory capabilities.
           </p>
 
@@ -73,7 +73,7 @@ export function Hero() {
             </div>
             <div className="flex items-center gap-2">
               <Check className="w-4 h-4 text-green-500" />
-              102+ API Methods
+              120+ API Methods
             </div>
           </div>
         </motion.div>
@@ -122,6 +122,10 @@ export function Hero() {
                     <label className="flex items-center gap-2 text-xs text-slate-600">
                       <input type="checkbox" readOnly className="rounded border-slate-300" />
                       Procedural
+                    </label>
+                    <label className="flex items-center gap-2 text-xs text-slate-600">
+                      <input type="checkbox" checked readOnly className="rounded border-slate-300 text-cyan-500" />
+                      Prospective
                     </label>
                   </div>
                 </div>

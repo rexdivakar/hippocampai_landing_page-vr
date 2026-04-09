@@ -22,6 +22,51 @@ client.remember(
 results = client.recall("work preferences", user_id="alice")
 for r in results:
     print(f"{r.memory.text} (relevance: {r.score:.2f}")`,
+  "Batch Operations": `from hippocampai import MemoryClient
+
+client = MemoryClient()
+
+# Store many memories in one call — individual failures
+# are logged but never abort the batch
+ids = client.batch_remember([
+    {"text": "Prefers dark mode", "user_id": "alice"},
+    {"text": "timezone: America/New_York", "user_id": "alice"},
+    {"text": "Team standup at 10am", "user_id": "alice"},
+], user_id="alice")
+
+# Fetch a specific memory by ID
+memory = client.get_memory(ids[0])
+print(memory.text)
+
+# Deduplicate — dry_run=True to inspect first
+report = client.deduplicate(user_id="alice", dry_run=True)
+print(f"Would remove {report.duplicate_count} duplicates")`,
+  "Prospective Memory": `from hippocampai import MemoryClient
+from hippocampai.models import ProspectiveTriggerType
+
+client = MemoryClient()
+
+# Remind the agent to follow up in 2 days
+intent = client.prospective.create(
+    user_id="alice",
+    text="Follow up with Bob about the Q2 roadmap",
+    trigger_type=ProspectiveTriggerType.TIME,
+    trigger_at="2026-04-11T09:00:00",
+    recurrence="weekly",
+    priority=8,
+)
+
+# Or fire when a relevant topic is recalled
+intent = client.prospective.create(
+    user_id="alice",
+    text="Remind about medication when health topic appears",
+    trigger_type=ProspectiveTriggerType.EVENT,
+    trigger_keywords=["health", "medical", "doctor"],
+)
+
+# Triggered intents surface automatically during recall()
+results = client.recall("health update", user_id="alice")
+# → includes the prospective intent above`,
   "Knowledge Graph": `# Knowledge graph is built automatically on every remember()
 client.remember(
     "Alice manages the ML team and reports to Bob",
@@ -90,8 +135,8 @@ export function DeveloperExperience() {
               Simple API, powerful features
             </h2>
             <p className="text-lg text-slate-600 mb-6">
-              Get started in minutes with our intuitive Python SDK. 102+ methods covering
-              memory storage, retrieval, knowledge graphs, multi-agent coordination, and more.
+              Get started in minutes with our intuitive Python SDK. 120+ methods covering
+              memory storage, retrieval, batch operations, prospective memory, knowledge graphs, multi-agent coordination, and more.
             </p>
 
             {/* Install command */}

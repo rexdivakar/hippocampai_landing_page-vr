@@ -5,9 +5,39 @@ import { Tag, Sparkles, ExternalLink } from "lucide-react"
 
 const releases = [
   {
-    version: "v0.5.0",
+    version: "v0.5.1",
     type: "Latest Release",
     typeColor: "cyan",
+    date: "Apr 2026",
+    features: [
+      "Batch memory endpoints: store/get/delete N memories in one request",
+      "Deduplication API: POST /v1/memories/deduplicate with dry_run support",
+      "Single-memory GET: GET /v1/memories/{memory_id} with 404 on miss",
+      "Prometheus /metrics endpoint in main app with graceful fallback",
+      "RemoteBackend URL patterns corrected; timeout raised to 90s",
+      "QueryRouter stem-prefix matching — plurals and conjugations now work",
+      "Groq retry capped at 3 × 20s (was 5 × 60s, could hang ~5 min)",
+    ]
+  },
+  {
+    version: "v0.5.1",
+    type: "Feature Release",
+    typeColor: "purple",
+    date: "Feb 2026",
+    features: [
+      "Prospective Memory — time-based and event-based future triggers",
+      "ProspectiveMemoryManager with full pending→triggered→completed lifecycle",
+      "Recurrence: daily, weekly, monthly, custom_cron via croniter",
+      "Embedding-similarity event matching for trigger conditions",
+      "9 new REST endpoints under /v1/prospective/ (CRUD, parse, evaluate)",
+      "Prospective intents surface automatically during recall()",
+      "Background evaluation loop in BackgroundTaskManager",
+    ]
+  },
+  {
+    version: "v0.5.0",
+    type: "Feature Release",
+    typeColor: "green",
     date: "Feb 2026",
     features: [
       "Knowledge graph with real-time entity extraction",
@@ -34,8 +64,8 @@ const releases = [
   },
   {
     version: "v0.3.0",
-    type: "Feature Release",
-    typeColor: "green",
+    type: "Stable Release",
+    typeColor: "amber",
     date: "Dec 2025",
     features: [
       "SaaS platform (auth, rate limiting, Celery)",
@@ -46,26 +76,15 @@ const releases = [
       "Context assembly with token budgeting",
     ]
   },
-  {
-    version: "v0.2.0",
-    type: "Stable Release",
-    typeColor: "amber",
-    date: "Nov 2025",
-    features: [
-      "Production-ready memory engine",
-      "Sleep Phase memory consolidation",
-      "Hybrid retrieval (BM25 + vector)",
-      "Multi-user & session support",
-    ]
-  },
 ]
 
 const roadmap = [
   { feature: "GraphRAG with advanced traversal", status: "In Progress" },
+  { feature: "Federated memory across instances", status: "In Progress" },
   { feature: "Real-time streaming memory updates", status: "Planned" },
   { feature: "Memory versioning & rollback", status: "Planned" },
   { feature: "Visual knowledge graph explorer", status: "Planned" },
-  { feature: "Federated memory across instances", status: "Exploring" },
+  { feature: "Prospective memory recurrence UI", status: "Planned" },
 ]
 
 export function Changelog() {
