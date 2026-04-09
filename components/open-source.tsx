@@ -14,6 +14,7 @@ const stats = [
 const links = [
   { icon: BookOpen, label: "Documentation", href: "/docs", internal: true },
   { icon: FileCode, label: "Examples", href: "/examples", internal: true },
+  { icon: MessageCircle, label: "Discord", href: "https://discord.gg/pPSNW9J7gB" },
   { icon: Star, label: "Issues", href: "https://github.com/rexdivakar/HippocampAI/issues" },
   { icon: MessageCircle, label: "Discussions", href: "https://github.com/rexdivakar/HippocampAI/discussions" },
 ]

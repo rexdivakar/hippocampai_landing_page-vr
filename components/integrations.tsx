@@ -7,34 +7,36 @@ const integrations = [
     category: "AI",
     title: "LLM & Embedding Providers",
     items: [
-      { name: "OpenAI", desc: "GPT + Embeddings" },
-      { name: "Anthropic", desc: "Claude models" },
-      { name: "Groq", desc: "Fast inference" },
-      { name: "Ollama", desc: "Local models" },
+      { name: "OpenAI", desc: "GPT-4o + text-embedding-3" },
+      { name: "Anthropic", desc: "Claude 3.5 / 4.x" },
+      { name: "Groq", desc: "Fast inference · LLaMA / Mixtral" },
+      { name: "Ollama", desc: "Local models (fully offline)" },
       { name: "HuggingFace", desc: "Sentence Transformers" },
-      { name: "Custom", desc: "Any provider" },
+      { name: "Custom", desc: "Any provider via adapter" },
     ]
   },
   {
     category: "DB",
     title: "Storage Backends",
     items: [
-      { name: "Qdrant", desc: "Default (recommended)" },
-      { name: "Redis", desc: "50-100x caching" },
+      { name: "Qdrant", desc: "Vector DB (default · HNSW)" },
+      { name: "Redis", desc: "Cache layer · 50-100x faster" },
+      { name: "DuckDB", desc: "Consolidation + sessions" },
       { name: "SQLite", desc: "Metadata store" },
-      { name: "Tiered", desc: "Hot/warm/cold" },
+      { name: "Tiered", desc: "Hot / warm / cold" },
     ]
   },
   {
     category: "FW",
-    title: "Frameworks & Platforms",
+    title: "Frameworks & Agent Platforms",
     items: [
-      { name: "LangChain", desc: "Memory adapter" },
-      { name: "LlamaIndex", desc: "RAG pipelines" },
-      { name: "AutoGen", desc: "Multi-agent" },
-      { name: "Celery", desc: "Background tasks" },
-      { name: "FastAPI", desc: "REST API" },
-      { name: "React", desc: "Dashboard UI" },
+      { name: "LangChain", desc: "Drop-in memory adapter" },
+      { name: "LlamaIndex", desc: "Native RAG memory backend" },
+      { name: "AutoGen", desc: "Multi-agent shared memory" },
+      { name: "CrewAI", desc: "Agent memory layer" },
+      { name: "Celery", desc: "Background tasks + Flower" },
+      { name: "FastAPI", desc: "120+ REST endpoints" },
+      { name: "React", desc: "Built-in dashboard UI" },
     ]
   }
 ]

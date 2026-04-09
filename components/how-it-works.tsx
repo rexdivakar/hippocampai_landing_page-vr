@@ -117,29 +117,29 @@ const categories = [
     icon: MessageSquare,
     title: "Memory Types",
     color: "cyan",
-    items: ["Preferences", "Facts & knowledge", "Events & conversations", "Procedural (behavioral)", "Custom metadata"]
+    items: ["Preferences", "Facts & knowledge", "Events & conversations", "Procedural (behavioral)", "Prospective (future)", "Custom metadata"]
   },
   {
     icon: Cpu,
     title: "Processing",
     color: "purple",
-    items: ["Multi-provider embeddings", "Knowledge graph extraction", "Importance scoring", "Relevance feedback loops"]
+    items: ["Multi-provider embeddings", "Knowledge graph extraction", "Importance scoring", "Relevance feedback loops", "Context assembly + token budgeting"]
   },
   {
     icon: Database,
     title: "Storage & Caching",
     color: "green",
-    items: ["Qdrant vector DB", "Redis caching (50-100x)", "Tiered storage", "Export/import"]
+    items: ["Qdrant vector DB (HNSW)", "Redis caching (50-100x)", "DuckDB (sessions + consolidation)", "Tiered storage (hot/warm/cold)", "Export/import (JSON, Parquet, CSV)"]
   },
   {
     icon: Moon,
     title: "Sleep Phase",
     color: "amber",
-    items: ["Memory consolidation", "Importance decay", "Auto-healing", "Predictive analytics"]
+    items: ["Memory consolidation", "Importance decay", "Auto-healing", "Predictive analytics", "Session summarization"]
   }
 ]
 
-const techStack = ["Python", "FastAPI", "Qdrant", "Redis", "OpenAI", "Anthropic", "Docker", "React"]
+const techStack = ["Python", "FastAPI", "Qdrant", "Redis", "DuckDB", "OpenAI", "Anthropic", "Groq", "Ollama", "Celery", "Docker", "React"]
 
 export function HowItWorks() {
   const [activeStage, setActiveStage] = useState<string | null>(null)

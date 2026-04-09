@@ -7,35 +7,63 @@ import { ChevronDown } from "lucide-react"
 const faqs = [
   {
     question: "What is HippocampAI?",
-    answer: "HippocampAI is an open-source, production-ready memory engine that gives AI systems human-like memory capabilities. Named after the brain region responsible for memory formation, it provides persistent memory storage, knowledge graphs, hybrid retrieval, multi-agent collaboration, and 102+ API methods for building memory-enabled AI applications.",
+    answer: "HippocampAI is an open-source, production-ready memory engine that gives AI systems human-like memory capabilities. Named after the brain region responsible for memory formation, it provides persistent memory storage, knowledge graphs, hybrid retrieval, prospective memory, batch operations, multi-agent collaboration, and 120+ API methods for building memory-enabled AI applications.",
   },
   {
     question: "How does the Knowledge Graph work?",
-    answer: "HippocampAI automatically builds a knowledge graph on every remember() call. It extracts entities and relationships from unstructured text in real-time, enabling graph-aware retrieval that combines vector similarity, BM25 keyword matching, and graph traversal via Reciprocal Rank Fusion (RRF) for superior accuracy.",
+    answer: "HippocampAI automatically builds a knowledge graph on every remember() call. It extracts entities and relationships from unstructured text in real-time, enabling graph-aware retrieval that combines vector similarity, BM25 keyword matching, and graph traversal via Reciprocal Rank Fusion (RRF) for 40% better accuracy than vector-only search.",
   },
   {
     question: "What embedding and LLM providers are supported?",
-    answer: "HippocampAI supports OpenAI, Anthropic Claude, Groq, Ollama (local models), Sentence Transformers from HuggingFace, or any custom embedding/LLM provider. Install specific providers via pip extras: pip install hippocampai[openai], hippocampai[anthropic], or hippocampai[groq].",
+    answer: "HippocampAI supports OpenAI (GPT-4o + text-embedding-3), Anthropic Claude, Groq (LLaMA / Mixtral), Ollama (fully offline / local), Sentence Transformers from HuggingFace, or any custom provider. Install only what you need: pip install hippocampai[openai], hippocampai[anthropic], hippocampai[groq], or hippocampai[all,dev] for everything.",
+  },
+  {
+    question: "Which LLM should I use?",
+    answer: "For production: OpenAI (GPT-4o) or Anthropic (Claude 3.5+) give the best entity extraction and procedural rule quality. For fast / cheap inference: Groq with LLaMA 3.1 is a strong default. For fully offline / private deployments: Ollama with Qwen 2.5 7B-instruct works well. Groq retries are capped at 3×20s so API timeouts stay under 90 seconds.",
   },
   {
     question: "How does multi-agent collaboration work?",
-    answer: "Multiple AI agents can share memory spaces for coordination. Each agent can remember() and recall() from shared namespaces, enabling teams of agents to build collective knowledge. Agent-scoped access ensures proper isolation while allowing collaboration where needed.",
+    answer: "Multiple AI agents can share memory spaces for coordination. Each agent can remember() and recall() from shared namespaces using a user_id + agent_id scope. Agent-scoped access ensures proper isolation while allowing collaboration where needed. Ideal for pipelines where a triage agent stores context that a resolution agent later retrieves.",
   },
   {
     question: "What is Sleep Phase consolidation?",
-    answer: "Inspired by how human memory works during sleep, the Sleep Phase periodically consolidates memories by merging related information, updating importance scores based on access patterns, and pruning low-value memories. This keeps your memory store optimized and relevant over time.",
+    answer: "Inspired by how human memory works during sleep, the Sleep Phase periodically consolidates memories by merging related information, updating importance scores based on access patterns, and pruning low-value memories below a configurable threshold. Call client.sleep_phase(user_id='...') manually or let the Celery background worker run it automatically.",
+  },
+  {
+    question: "What is Prospective Memory?",
+    answer: "Prospective memory is \"remembering to do something in the future.\" You create intents that fire either at a specific time (with optional daily/weekly/monthly/custom_cron recurrence) or when a recall() query matches keywords or embedding similarity. Triggered intents surface automatically in recall() results — no extra code required.",
+  },
+  {
+    question: "How do Batch Operations work?",
+    answer: "Three REST endpoints let you store, fetch, or delete hundreds of memories in a single call: POST /v1/memories/batch, POST /v1/memories/batch/get, and POST /v1/memories/batch/delete. Individual item failures are logged but never abort the whole batch. There's also POST /v1/memories/deduplicate with dry_run=true so you can preview what would be removed before committing.",
   },
   {
     question: "How do I deploy HippocampAI?",
-    answer: "HippocampAI can be installed via pip (pip install hippocampai) for lightweight library use, or deployed as a full SaaS platform with pip install hippocampai[saas] which includes authentication, rate limiting, Celery background tasks, and a React dashboard. Docker Compose deployment is also supported.",
+    answer: "Two paths: (1) Lightweight library — pip install hippocampai, point at a Qdrant instance, done. (2) Full platform — docker compose up -d spins up the API server, React dashboard, Qdrant, Redis, Celery workers, Prometheus, and Grafana in ~30 seconds. For SaaS features (auth, rate limiting, multi-tenant) use pip install hippocampai[saas].",
+  },
+  {
+    question: "What are the hardware requirements?",
+    answer: "Minimum for development: 2 vCPUs, 4 GB RAM, Qdrant + Redis. Recommended for production: 4+ vCPUs, 8 GB RAM, persistent volume for Qdrant data. Knowledge graph extraction and LLM-backed consolidation are CPU-light but require outbound calls to your LLM provider unless running Ollama locally.",
+  },
+  {
+    question: "How does data privacy work? Is it GDPR-compliant?",
+    answer: "HippocampAI is self-hosted — your data never leaves your infrastructure. There is no cloud sync or telemetry. For GDPR: you control data retention, can delete all memories for a user_id with a single call, and the audit logging system provides a complete trail. Session data and vector embeddings are stored only in your Qdrant and Redis instances.",
+  },
+  {
+    question: "Can I migrate from another memory system?",
+    answer: "Yes. Use the import endpoint (client.import_memories(path='backup.json', user_id='...')) to bulk-load memories from JSON, Parquet, or CSV. This covers migration from mem0, LangChain memory, or any custom solution. Export your existing data first with client.export(user_id='...', format='json').",
+  },
+  {
+    question: "How do I monitor memory health?",
+    answer: "HippocampAI ships with a Prometheus /metrics endpoint (available in app.py since v0.5.1) and a pre-built Grafana dashboard at port 3002. The auto-healing pipeline continuously monitors duplicate rates, importance score distributions, and graph connectivity. You can also call client.health_check() to get a per-user health score.",
   },
   {
     question: "What are Memory Triggers?",
-    answer: "Memory Triggers are event-driven actions that fire when specific memory events occur. You can configure webhooks, websocket notifications, and log actions that react to memory creation, updates, or retrieval events in real-time across your system.",
+    answer: "Memory Triggers are event-driven actions that fire when specific memory lifecycle events occur (on_remember, on_recall, on_update, on_delete, on_conflict, on_expire). Configure webhooks, websocket notifications, or log actions with filter conditions (eq, gt, lt, contains, matches). Fire history is tracked per trigger.",
   },
   {
     question: "Is HippocampAI production-ready?",
-    answer: "Yes. HippocampAI includes Redis caching (50-100x faster), auto-healing for memory issues, health monitoring, comprehensive error handling, and handles 500-1000+ requests per second. It supports tiered storage (hot/warm/cold), export/import for backup, and offline mode for resilience.",
+    answer: "Yes. HippocampAI handles 1000+ requests/sec with Redis caching (50-100x faster), auto-heals memory issues, and includes comprehensive error handling. It supports tiered storage (hot/warm/cold) for cost optimization, export/import for backup, offline mode with operation queueing, and audit logging for compliance. v0.5.1 also fixes RemoteBackend URL bugs and caps Groq timeouts at 90 seconds.",
   },
 ]
 

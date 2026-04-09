@@ -18,9 +18,14 @@ const sections = [
   { id: "memory-types", label: "Memory Types", icon: Database },
   { id: "knowledge-graph", label: "Knowledge Graph", icon: GitBranch },
   { id: "multi-agent", label: "Multi-Agent", icon: Users },
+  { id: "sessions", label: "Sessions", icon: MessageSquare },
+  { id: "context-assembly", label: "Context Assembly", icon: FileText },
+  { id: "bitemporal", label: "Bi-Temporal Facts", icon: Tag },
   { id: "api-reference", label: "API Reference", icon: Code },
   { id: "prospective-memory", label: "Prospective Memory", icon: Clock },
   { id: "batch-ops", label: "Batch Operations", icon: Layers },
+  { id: "security", label: "Security & Auth", icon: Shield },
+  { id: "monitoring", label: "Monitoring", icon: HelpCircle },
   { id: "configuration", label: "Configuration", icon: Settings },
   { id: "deployment", label: "Deployment", icon: Server },
   { id: "infrastructure", label: "Infrastructure", icon: Network },
@@ -630,6 +635,405 @@ client.remember("My target: 50 calls/week", user_id="sales_team/alice", type="go
               </div>
             )}
 
+
+            {/* Sessions */}
+            {activeSection === "sessions" && (
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Session Management</h1>
+                <p className="text-slate-600 mb-6">
+                  Sessions give you structured tracking of multi-turn conversations. Each session accumulates turns, and when it reaches a configurable threshold HippocampAI automatically summarizes it via LLM and persists the summary as a long-term memory — no manual plumbing required.
+                </p>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Basic Usage</h2>
+                <CodeBlock
+                  code={`from hippocampai import MemoryClient
+
+client = MemoryClient()
+
+# Create a session
+session = client.sessions.create(
+    user_id="alice",
+    title="Q2 planning",
+    metadata={"channel": "slack", "agent": "planner"},
+)
+
+# Add turns as the conversation progresses
+client.sessions.add_turn(session.id, role="user",      content="What's the deadline?")
+client.sessions.add_turn(session.id, role="assistant", content="March 15th per Jira.")
+client.sessions.add_turn(session.id, role="user",      content="Who owns it?")
+client.sessions.add_turn(session.id, role="assistant", content="Alice — she confirmed last week.")
+
+# Complete — triggers LLM summarization if threshold reached
+client.sessions.complete(session.id)
+
+# Get the session
+s = client.sessions.get(session.id)
+print(s.summary)   # LLM-generated summary stored as a persistent memory`}
+                  language="python"
+                  id="sess-basic"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Semantic Search Across Sessions</h2>
+                <CodeBlock
+                  code={`# Search across all past sessions for a user
+results = client.sessions.search(
+    "deadline discussions",
+    user_id="alice",
+    limit=5
+)
+
+for r in results:
+    print(f"Session: {r.session.title} — {r.excerpt}")`}
+                  language="python"
+                  id="sess-search"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Session Lifecycle</h2>
+                <div className="flex flex-wrap items-center gap-2 mb-6">
+                  {["created", "→", "active", "→", "summarizing", "→", "completed"].map((s, i) => (
+                    s === "→"
+                      ? <span key={i} className="text-slate-400">→</span>
+                      : <span key={i} className="px-3 py-1 bg-slate-100 rounded-full text-sm font-medium text-slate-700">{s}</span>
+                  ))}
+                </div>
+                <CodeBlock
+                  code={`# Update metadata
+client.sessions.update(session.id, metadata={"status": "reviewed"})
+
+# List all sessions
+sessions = client.sessions.list(user_id="alice", limit=20)
+
+# Delete
+client.sessions.delete(session.id)`}
+                  language="python"
+                  id="sess-lifecycle"
+                />
+
+                <div className="bg-cyan-50 rounded-xl p-4 border border-cyan-100 mt-6">
+                  <p className="text-sm text-cyan-800 font-medium">Auto-summarization</p>
+                  <p className="text-sm text-cyan-700 mt-1">When a session's turn count reaches the configured threshold, HippocampAI runs LLM-based summarization in the background (via Celery) and stores the result as a <code>fact</code> memory with the session ID in metadata. All future recall() calls can surface this summary.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Context Assembly */}
+            {activeSection === "context-assembly" && (
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Context Assembly</h1>
+                <p className="text-slate-600 mb-6">
+                  Context assembly automatically selects, ranks, and formats the most relevant memories to fit within your LLM's token budget. Instead of blindly stuffing a prompt with every recalled memory, HippocampAI gives you a precisely-sized context pack.
+                </p>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Assembling a Context Pack</h2>
+                <CodeBlock
+                  code={`from hippocampai import MemoryClient
+
+client = MemoryClient()
+
+# Ask for a context pack within a token budget
+pack = client.context.assemble(
+    query="What does Alice prefer at work?",
+    user_id="alice",
+    token_budget=2000,                      # tokens available for memory
+    include_types=["preference", "fact"],   # optional type filter
+    min_relevance=0.6,                      # optional relevance threshold
+)
+
+print(f"Token usage: {pack.token_count} / 2000")
+print(f"Memories included: {len(pack.memories)}")
+print(pack.text)   # formatted, ready to paste into a system prompt`}
+                  language="python"
+                  id="ctx-basic"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Using the Pack in a Prompt</h2>
+                <CodeBlock
+                  code={`pack = client.context.assemble(
+    query=user_message,
+    user_id="alice",
+    token_budget=3000,
+)
+
+system_prompt = f"""You are a helpful assistant.
+
+## What you know about this user:
+{pack.text}
+
+Answer based on the above context when relevant.
+"""
+
+# Now call your LLM with the assembled context
+response = openai_client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user",   "content": user_message},
+    ]
+)`}
+                  language="python"
+                  id="ctx-prompt"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">How It Works</h2>
+                <div className="space-y-3">
+                  {[
+                    { step: "1", title: "Recall", desc: "Runs a hybrid recall() with the provided query to fetch candidate memories." },
+                    { step: "2", title: "Rank", desc: "Scores each memory by relevance, recency, and importance. Applies min_relevance filter." },
+                    { step: "3", title: "Budget", desc: "Greedily selects memories from highest to lowest score until the token_budget is filled." },
+                    { step: "4", title: "Format", desc: "Serializes selected memories into a human-readable text block ready for prompt injection." },
+                  ].map((item) => (
+                    <div key={item.step} className="flex gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                      <div className="w-7 h-7 rounded-full bg-cyan-500 text-white text-sm font-bold flex items-center justify-center flex-shrink-0">{item.step}</div>
+                      <div>
+                        <div className="font-medium text-slate-800">{item.title}</div>
+                        <div className="text-sm text-slate-500">{item.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Bi-Temporal */}
+            {activeSection === "bitemporal" && (
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Bi-Temporal Facts</h1>
+                <p className="text-slate-600 mb-6">
+                  Standard facts only track <em>when they were recorded</em>. Bi-temporal facts track two independent time axes: <strong>valid time</strong> (when the fact was true in the real world) and <strong>transaction time</strong> (when it was stored in the system). This lets you run time-travel queries and reconstruct any past state of your knowledge base.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <h4 className="font-medium text-slate-800 mb-1">Valid Time</h4>
+                    <p className="text-sm text-slate-500">When was this fact <em>true in reality</em>? Example: "Alice was CTO from Jan 2024 to Dec 2024."</p>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <h4 className="font-medium text-slate-800 mb-1">Transaction Time</h4>
+                    <p className="text-sm text-slate-500">When was this fact <em>recorded in the system</em>? Managed automatically — immutable once written.</p>
+                  </div>
+                </div>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Storing a Bi-Temporal Fact</h2>
+                <CodeBlock
+                  code={`from hippocampai import MemoryClient
+from datetime import datetime
+
+client = MemoryClient()
+
+# Store a fact with explicit valid-time range
+client.bitemporal.store(
+    user_id="org_123",
+    text="Alice is VP of Engineering",
+    valid_from=datetime(2025, 1, 1),
+    valid_to=datetime(2025, 12, 31),  # None = still valid
+    type="fact",
+)
+
+# Store a correction — the old record is NOT deleted,
+# only superseded for the overlapping valid period
+client.bitemporal.store(
+    user_id="org_123",
+    text="Alice is Chief Technology Officer",
+    valid_from=datetime(2026, 1, 1),
+    valid_to=None,
+    type="fact",
+)`}
+                  language="python"
+                  id="bitemp-store"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Time-Travel Queries</h2>
+                <CodeBlock
+                  code={`# What was true on a specific date in the past?
+facts = client.bitemporal.query(
+    user_id="org_123",
+    as_of_valid=datetime(2025, 6, 15),       # valid time
+    as_of_transaction=None,                  # latest known info
+)
+
+# Full audit: what did we know, and when did we know it?
+history = client.bitemporal.history(
+    user_id="org_123",
+    entity="Alice",
+)
+
+for entry in history:
+    print(f"{entry.valid_from} – {entry.valid_to}: {entry.text}")
+    print(f"  Recorded at: {entry.transaction_time}")`}
+                  language="python"
+                  id="bitemp-query"
+                />
+
+                <div className="bg-amber-50 rounded-xl p-4 border border-amber-100 mt-6">
+                  <p className="text-sm text-amber-800 font-medium">When to use bi-temporal facts</p>
+                  <p className="text-sm text-amber-700 mt-1">Use bi-temporal storage for facts that change over time and where audit trails matter: org charts, pricing, product specs, legal entities, or any domain where "what was true when?" is a real question.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Security */}
+            {activeSection === "security" && (
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Security & Authentication</h1>
+                <p className="text-slate-600 mb-6">
+                  HippocampAI is self-hosted — your data never leaves your infrastructure. The SaaS platform tier adds JWT authentication, API key management, rate limiting, and a full audit trail.
+                </p>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Authentication (SaaS mode)</h2>
+                <CodeBlock
+                  code={`# Install SaaS tier
+pip install "hippocampai[saas]"
+
+# .env — set these before starting the server
+JWT_SECRET_KEY=your-secret-key-min-32-chars
+JWT_ALGORITHM=HS256
+JWT_EXPIRY_HOURS=24
+
+API_KEY_HEADER=X-API-Key
+ENABLE_RATE_LIMITING=true
+RATE_LIMIT_REQUESTS=100
+RATE_LIMIT_WINDOW_SECONDS=60`}
+                  language="bash"
+                  id="sec-auth"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Audit Logging</h2>
+                <CodeBlock
+                  code={`# Audit log is written automatically for every API call.
+# Configure retention and rotation in .env:
+ENABLE_AUDIT_LOG=true
+AUDIT_LOG_RETENTION_DAYS=90
+AUDIT_LOG_PATH=./logs/audit.jsonl
+
+# Each entry contains:
+# timestamp, user_id, agent_id, operation, memory_id,
+# ip_address, status_code, duration_ms`}
+                  language="bash"
+                  id="sec-audit"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Data Privacy</h2>
+                <div className="space-y-3">
+                  {[
+                    { title: "Self-hosted", desc: "All data stays in your Qdrant and Redis instances. No cloud sync, no telemetry." },
+                    { title: "Delete by user", desc: "client.delete_all(user_id='alice') removes all memories, sessions, and graph nodes for that user in one call. Suitable for GDPR right-to-erasure." },
+                    { title: "Namespace isolation", desc: "Memory spaces are scoped by user_id and optionally agent_id — cross-user data leakage is structurally impossible." },
+                    { title: "Encryption at rest", desc: "Not built-in — delegate to your Qdrant and Redis deployment (both support encrypted volumes / TLS)." },
+                  ].map((item) => (
+                    <div key={item.title} className="flex gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                      <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2 flex-shrink-0" />
+                      <div>
+                        <div className="font-medium text-slate-800">{item.title}</div>
+                        <div className="text-sm text-slate-500">{item.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Production Security Checklist</h2>
+                <div className="space-y-2">
+                  {[
+                    "Set a strong JWT_SECRET_KEY (32+ random chars)",
+                    "Enable HTTPS / TLS termination in front of the API",
+                    "Set QDRANT_API_KEY and REDIS_PASSWORD in production",
+                    "Enable ENABLE_RATE_LIMITING=true to prevent abuse",
+                    "Rotate API keys regularly via the /auth/keys endpoints",
+                    "Review audit logs weekly for anomalous access patterns",
+                    "Run client.delete_all(user_id=...) for GDPR erasure requests",
+                  ].map((item) => (
+                    <div key={item} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                      <div className="w-5 h-5 rounded border-2 border-slate-300 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Monitoring */}
+            {activeSection === "monitoring" && (
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Monitoring & Observability</h1>
+                <p className="text-slate-600 mb-6">
+                  HippocampAI ships with a Prometheus metrics endpoint, a pre-built Grafana dashboard, structured JSON logging, and an auto-healing pipeline that monitors memory health continuously.
+                </p>
+
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Prometheus Metrics</h2>
+                <CodeBlock
+                  code={`# Available at GET /metrics (added in v0.5.1)
+# Requires: pip install "hippocampai[saas]"
+# Falls back to 501 if prometheus-client not installed
+
+# Key metrics exposed:
+hippocampai_memories_total          # total memories per user
+hippocampai_recall_latency_seconds  # histogram p50/p95/p99
+hippocampai_ingestion_rate_total    # ingestion ops/sec
+hippocampai_cache_hit_ratio         # Redis cache hit rate
+hippocampai_graph_entities_total    # knowledge graph size
+hippocampai_health_score            # per-user memory health`}
+                  language="bash"
+                  id="mon-prom"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Grafana Dashboard</h2>
+                <p className="text-slate-600 mb-4">
+                  The Docker Compose stack starts Grafana at <code className="px-1.5 py-0.5 bg-slate-100 rounded text-sm">http://localhost:3002</code> with a pre-configured HippocampAI dashboard. It shows recall latency percentiles, ingestion throughput, cache hit ratio, and memory health scores.
+                </p>
+                <CodeBlock
+                  code={`# Start the full observability stack
+docker compose up -d
+
+# Grafana: http://localhost:3002  (admin / admin)
+# Prometheus: http://localhost:9090
+
+# Prometheus scrape config (already in docker-compose.yml)
+scrape_configs:
+  - job_name: hippocampai
+    static_configs:
+      - targets: ['api:8000']`}
+                  language="yaml"
+                  id="mon-grafana"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Structured Logging</h2>
+                <CodeBlock
+                  code={`# All logs are JSON-structured (python-json-logger)
+# Example log entry:
+{
+  "timestamp": "2026-04-09T10:23:44Z",
+  "level": "INFO",
+  "event": "memory.stored",
+  "user_id": "alice",
+  "memory_id": "mem_abc123",
+  "type": "preference",
+  "importance": 0.82,
+  "duration_ms": 47
+}
+
+# Configure log level in .env:
+LOG_LEVEL=INFO   # DEBUG | INFO | WARNING | ERROR`}
+                  language="json"
+                  id="mon-logs"
+                />
+
+                <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Auto-Healing</h2>
+                <p className="text-slate-600 mb-4">
+                  The auto-healing pipeline runs continuously in the background and checks for: duplicate memories, low-importance accumulation, graph inconsistencies, and stale session data. It surfaces issues via a per-user health score (0–1).
+                </p>
+                <CodeBlock
+                  code={`# Check memory health
+health = client.health_check(user_id="alice")
+print(f"Health score: {health.score}")
+print(f"Issues found: {health.issues}")
+
+# Trigger manual healing
+result = client.heal(user_id="alice")
+print(f"Repaired: {result.repaired_count}")`}
+                  language="python"
+                  id="mon-heal"
+                />
+              </div>
+            )}
 
             {/* API Reference */}
             {activeSection === "api-reference" && (

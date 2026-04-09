@@ -20,8 +20,8 @@ const releases = [
     ]
   },
   {
-    version: "v0.5.1",
-    type: "Feature Release",
+    version: "v0.5.0-pm",
+    type: "Prospective Memory",
     typeColor: "purple",
     date: "Feb 2026",
     features: [

@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import {
   Database, Search, TrendingDown, Star, Users, Cpu,
   GitBranch, Bell, Brain, Puzzle, Shield, BarChart3,
-  Clock, Layers
+  Clock, Layers, MessageSquare, FileStack, Globe, CalendarClock
 } from "lucide-react"
 
 const capabilities = [
@@ -105,6 +105,34 @@ const capabilities = [
     description: "Store, fetch, or delete hundreds of memories in a single API call. Deduplication endpoint with dry_run mode lets you inspect before removing. Individual failures never abort the batch.",
     technical: "POST /v1/memories/batch · /batch/get · /batch/delete · /deduplicate",
     color: "cyan"
+  },
+  {
+    icon: MessageSquare,
+    title: "Session Management",
+    description: "Track multi-turn conversations as structured sessions. Automatic LLM-powered summarization when sessions hit a threshold. Semantic search across sessions with entity tracking.",
+    technical: "create / update / complete / delete · session summarization",
+    color: "green"
+  },
+  {
+    icon: FileStack,
+    title: "Context Assembly",
+    description: "Smart context-pack generation for RAG. Token budget management automatically selects and ranks memories that fit within your model's context window — no manual trimming.",
+    technical: "token-budget aware · automatic context pack generation",
+    color: "purple"
+  },
+  {
+    icon: CalendarClock,
+    title: "Bi-Temporal Facts",
+    description: "Track both valid time (when a fact was true in reality) and transaction time (when it was recorded). Run time-travel queries to reconstruct any past state of your knowledge base.",
+    technical: "valid_time + transaction_time · historical state reconstruction",
+    color: "amber"
+  },
+  {
+    icon: Globe,
+    title: "Remote Backend",
+    description: "Point the Python library at a running HippocampAI API server instead of embedding storage locally. Useful for microservices, serverless functions, and shared team deployments.",
+    technical: "RemoteBackend(url=...) · 90s timeout · all SDK methods",
+    color: "rose"
   },
 ]
 

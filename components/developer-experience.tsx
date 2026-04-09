@@ -98,6 +98,57 @@ results = client.recall(
     user_id="support_team",
     agent_id="resolution_agent"
 )`,
+  "Sessions": `from hippocampai import MemoryClient
+
+client = MemoryClient()
+
+# Start a conversation session
+session = client.sessions.create(
+    user_id="alice",
+    title="Q2 planning chat",
+    metadata={"channel": "slack"},
+)
+
+# Add turns as the conversation progresses
+client.sessions.add_turn(session.id, role="user",   content="What's the deadline?")
+client.sessions.add_turn(session.id, role="assistant", content="March 15th per Jira.")
+
+# When the session reaches a threshold HippocampAI
+# auto-summarizes it via LLM and stores the summary
+# as a persistent memory — no extra work needed.
+client.sessions.complete(session.id)
+
+# Search across all past sessions semantically
+results = client.sessions.search(
+    "deadline discussions",
+    user_id="alice",
+    limit=5
+)`,
+  "Context Assembly": `from hippocampai import MemoryClient
+
+client = MemoryClient()
+
+# Build a context pack that fits within a token budget
+# — HippocampAI ranks and selects the most relevant
+#   memories automatically
+pack = client.context.assemble(
+    query="What does Alice prefer?",
+    user_id="alice",
+    token_budget=2000,      # tokens available for memory
+    include_types=["preference", "fact"],
+)
+
+# Use the assembled context in your LLM prompt
+prompt = f"""
+<context>
+{pack.text}
+</context>
+
+User question: What does Alice prefer?
+"""
+
+print(f"Used {pack.token_count} / 2000 tokens")
+print(f"Included {len(pack.memories)} memories")`,
   "Sleep Phase": `# Run memory consolidation (like human sleep)
 result = client.sleep_phase(
     user_id="alice",

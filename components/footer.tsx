@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Github, Twitter, Mail } from "lucide-react"
+import { Github, Twitter, Mail, MessageCircle } from "lucide-react"
 
 // Brain logo SVG component
 function BrainLogo({ className }: { className?: string }) {
@@ -31,6 +31,7 @@ const footerLinks = {
   ],
   community: [
     { label: "GitHub", href: "https://github.com/rexdivakar/HippocampAI", external: true },
+    { label: "Discord", href: "https://discord.gg/pPSNW9J7gB", external: true },
     { label: "Discussions", href: "https://github.com/rexdivakar/HippocampAI/discussions", external: true },
     { label: "Issues", href: "https://github.com/rexdivakar/HippocampAI/issues", external: true },
     { label: "Contributing", href: "https://github.com/rexdivakar/HippocampAI/blob/main/CONTRIBUTING.md", external: true },
@@ -67,6 +68,15 @@ export function Footer() {
                 className="text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <Twitter className="w-5 h-5" />
+              </a>
+              <a
+                href="https://discord.gg/pPSNW9J7gB"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-indigo-500 transition-colors"
+                title="Join Discord"
+              >
+                <MessageCircle className="w-5 h-5" />
               </a>
               <a
                 href="mailto:contact@hippocampai.dev"
