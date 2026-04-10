@@ -2,15 +2,15 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Copy, Check } from "lucide-react"
 
 const navLinks = [
   { href: "/#capabilities", label: "Features" },
   { href: "/#use-cases", label: "Use Cases" },
   { href: "/#comparison", label: "Compare" },
   { href: "/docs", label: "Docs" },
-  { href: "/docs#infrastructure", label: "Infra" },
   { href: "/examples", label: "Examples" },
+  { href: "/changelog", label: "Changelog" },
   { href: "https://github.com/rexdivakar/HippocampAI", label: "GitHub", external: true },
 ]
 
@@ -27,6 +27,13 @@ function BrainLogo({ className }: { className?: string }) {
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [pipCopied, setPipCopied] = useState(false)
+
+  const copyPip = () => {
+    navigator.clipboard.writeText("pip install hippocampai")
+    setPipCopied(true)
+    setTimeout(() => setPipCopied(false), 2000)
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl">
@@ -67,7 +74,18 @@ export function Navigation() {
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2">
+          <button
+            onClick={copyPip}
+            title="Copy install command"
+            className="inline-flex items-center gap-2 px-3 py-2 text-xs font-mono text-slate-500 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200"
+          >
+            {pipCopied ? (
+              <><Check className="w-3.5 h-3.5 text-emerald-500" /><span className="text-emerald-600">Copied!</span></>
+            ) : (
+              <><Copy className="w-3.5 h-3.5" />pip install hippocampai</>
+            )}
+          </button>
           <Link
             href="/docs#getting-started"
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-cyan-500 hover:bg-cyan-600 rounded-lg transition-colors"

@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"
+import { AnnouncementBanner } from "@/components/announcement-banner"
 import "./globals.css"
 
 const inter = Inter({ 
@@ -17,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "HippocampAI — Enterprise Memory Engine for Intelligent AI Systems",
-  description: "Open-source memory engine with knowledge graphs, hybrid retrieval, multi-agent collaboration, and 102+ API methods. Give your AI systems human-like memory.",
+  description: "Open-source memory engine with knowledge graphs, hybrid retrieval, prospective memory, batch operations, multi-agent collaboration, and 120+ API methods. Give your AI systems human-like memory.",
   keywords: ["AI memory", "LLM memory", "knowledge graph", "vector database", "semantic search", "AI agents", "multi-agent", "memory engine", "RAG"],
   icons: {
     icon: "/favicon.svg",
@@ -49,6 +50,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+        <AnnouncementBanner />
         {children}
         <Analytics />
       </body>

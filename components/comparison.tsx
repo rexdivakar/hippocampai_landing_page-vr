@@ -1,7 +1,20 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Check, X, Minus } from "lucide-react"
+import { Check, X, Minus, Sparkles } from "lucide-react"
+
+// Rows where only HippocampAI has full support get highlighted
+const UNIQUE_ROWS = new Set([
+  "Knowledge Graph",
+  "Graph-Aware Retrieval (3-way RRF)",
+  "Auto-Deduplication (+ API endpoint)",
+  "Prospective Memory (future triggers)",
+  "Batch Operations (store/get/delete)",
+  "Context Assembly + Token Budgeting",
+  "Bi-Temporal Facts (time-travel queries)",
+  "Sleep Phase Consolidation",
+  "Offline Mode + Operation Queue",
+])
 
 const features = [
   { name: "Semantic Search", hippocamp: true, mem0: true, langchain: true, custom: "partial" },
@@ -56,6 +69,19 @@ export function Comparison() {
           </p>
         </motion.div>
 
+        {/* Unique count callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-center mb-6"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 border border-cyan-200 rounded-full text-sm text-cyan-700">
+            <Check className="w-4 h-4 text-cyan-500" />
+            <span><strong>{UNIQUE_ROWS.size} features</strong> only available in HippocampAI — highlighted below</span>
+          </div>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -94,13 +120,20 @@ export function Comparison() {
                 </tr>
               </thead>
               <tbody>
-                {features.map((feature, index) => (
+                {features.map((feature) => {
+                  const isUnique = UNIQUE_ROWS.has(feature.name)
+                  return (
                   <tr
                     key={feature.name}
-                    className={`border-b border-slate-100 ${index % 2 === 0 ? "bg-white" : "bg-slate-50/50"}`}
+                    className={`border-b border-slate-100 ${isUnique ? "bg-cyan-50/40" : "bg-white hover:bg-slate-50/50"} transition-colors`}
                   >
-                    <td className="py-3 px-6 text-sm text-slate-700">{feature.name}</td>
-                    <td className="py-3 px-4 text-center bg-cyan-50/30">
+                    <td className="py-3 px-6 text-sm text-slate-700 flex items-center gap-2">
+                      {feature.name}
+                      {isUnique && (
+                        <span className="px-1.5 py-0.5 bg-cyan-100 text-cyan-700 text-xs font-semibold rounded-full whitespace-nowrap">only us</span>
+                      )}
+                    </td>
+                    <td className="py-3 px-4 text-center bg-cyan-50/60">
                       <div className="flex justify-center">{renderStatus(feature.hippocamp)}</div>
                     </td>
                     <td className="py-3 px-4 text-center">
@@ -113,7 +146,8 @@ export function Comparison() {
                       <div className="flex justify-center">{renderStatus(feature.custom)}</div>
                     </td>
                   </tr>
-                ))}
+                  )
+                })}
               </tbody>
             </table>
           </div>

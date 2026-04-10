@@ -1,8 +1,42 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Github, Star, Check, Sparkles } from "lucide-react"
+import { ArrowRight, Github, Star, Check, Sparkles, MessageSquare, Users, Database } from "lucide-react"
 import { motion } from "framer-motion"
+
+const providers = [
+  { name: "OpenAI", bg: "bg-[#10a37f]", text: "text-white", short: "OAI" },
+  { name: "Anthropic", bg: "bg-[#c96442]", text: "text-white", short: "ANT" },
+  { name: "Groq", bg: "bg-[#f55036]", text: "text-white", short: "GRQ" },
+  { name: "Ollama", bg: "bg-slate-800", text: "text-white", short: "OLL" },
+  { name: "LangChain", bg: "bg-[#1c3c3c]", text: "text-white", short: "LC" },
+  { name: "LlamaIndex", bg: "bg-[#7c3aed]", text: "text-white", short: "LI" },
+  { name: "HuggingFace", bg: "bg-[#ff9d00]", text: "text-white", short: "HF" },
+]
+
+const useCases = [
+  {
+    icon: MessageSquare,
+    title: "Building a chatbot",
+    desc: "Remember users across sessions",
+    href: "/#developer-experience",
+    color: "cyan",
+  },
+  {
+    icon: Users,
+    title: "Multi-agent system",
+    desc: "Shared memory across agents",
+    href: "/#capabilities",
+    color: "purple",
+  },
+  {
+    icon: Database,
+    title: "Self-hosted RAG",
+    desc: "Hybrid retrieval + knowledge graph",
+    href: "/#how-it-works",
+    color: "green",
+  },
+]
 
 export function Hero() {
   return (
@@ -18,10 +52,11 @@ export function Hero() {
           className="text-center space-y-6"
         >
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-sm text-cyan-700">
+          <Link href="/#changelog" className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-sm text-cyan-700 hover:bg-cyan-100 transition-colors">
             <Sparkles className="w-3.5 h-3.5" />
             v0.5.1 — Prospective Memory, Batch Operations, RemoteBackend Fixes
-          </div>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900">
@@ -38,7 +73,7 @@ export function Hero() {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Link
               href="/docs#getting-started"
               className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white bg-cyan-500 hover:bg-cyan-600 rounded-full transition-colors shadow-lg shadow-cyan-500/25"
@@ -58,7 +93,7 @@ export function Hero() {
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-4 text-sm text-slate-500">
+          <div className="flex flex-wrap items-center justify-center gap-6 pt-2 text-sm text-slate-500">
             <div className="flex items-center gap-2">
               <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
               Open Source
@@ -76,6 +111,64 @@ export function Hero() {
               120+ API Methods
             </div>
           </div>
+
+          {/* Provider badge row */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="pt-2"
+          >
+            <p className="text-xs text-slate-400 mb-3 uppercase tracking-wider font-medium">Works with</p>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {providers.map((p) => (
+                <span
+                  key={p.name}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${p.bg} ${p.text} shadow-sm`}
+                >
+                  {p.name}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Use-case selector */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="pt-2"
+          >
+            <p className="text-xs text-slate-400 mb-3 uppercase tracking-wider font-medium">Start with your use case</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              {useCases.map((uc) => {
+                const colorMap: Record<string, string> = {
+                  cyan: "border-cyan-200 hover:border-cyan-400 hover:bg-cyan-50",
+                  purple: "border-purple-200 hover:border-purple-400 hover:bg-purple-50",
+                  green: "border-green-200 hover:border-green-400 hover:bg-green-50",
+                }
+                const iconMap: Record<string, string> = {
+                  cyan: "text-cyan-500",
+                  purple: "text-purple-500",
+                  green: "text-green-500",
+                }
+                return (
+                  <Link
+                    key={uc.title}
+                    href={uc.href}
+                    className={`flex items-center gap-3 px-4 py-3 bg-white border rounded-xl text-left transition-all group ${colorMap[uc.color]}`}
+                  >
+                    <uc.icon className={`w-5 h-5 flex-shrink-0 ${iconMap[uc.color]}`} />
+                    <div>
+                      <div className="text-sm font-semibold text-slate-800 group-hover:text-slate-900">{uc.title}</div>
+                      <div className="text-xs text-slate-500">{uc.desc}</div>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-500 ml-auto flex-shrink-0 transition-colors" />
+                  </Link>
+                )
+              })}
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Dashboard Preview */}

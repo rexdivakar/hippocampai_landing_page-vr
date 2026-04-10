@@ -1,9 +1,124 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { Copy, Check, Github, BookOpen } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Copy, Check, Github, BookOpen, ChevronDown } from "lucide-react"
 import Link from "next/link"
+
+const outputExamples: Record<string, string> = {
+  "Remember & Recall": `# Output of client.recall(...)
+[
+  RecallResult(
+    score=0.94,
+    memory=Memory(
+      id="mem_a1b2c3",
+      text="User prefers oat milk and works remotely on Tuesdays",
+      type="preference",
+      user_id="alice",
+      importance=0.82,
+      created_at="2026-04-09T10:23:44Z"
+    )
+  ),
+  RecallResult(score=0.78, memory=Memory(...)),
+]`,
+  "Batch Operations": `# Output of client.batch_remember(...)
+["mem_abc123", "mem_def456", "mem_ghi789"]
+
+# Output of client.get_memory("mem_abc123")
+Memory(id="mem_abc123", text="Prefers dark mode", type="preference", ...)
+
+# Output of client.deduplicate(dry_run=True)
+DeduplicationReport(
+  duplicate_count=3,
+  groups=[
+    ["mem_aaa", "mem_bbb"],   # near-identical preference entries
+    ["mem_ccc", "mem_ddd", "mem_eee"],
+  ]
+)`,
+  "Prospective Memory": `# Output of client.prospective.create(...)
+ProspectiveIntent(
+  id="intent_x9y8z7",
+  text="Follow up with Bob about the Q2 roadmap",
+  status=ProspectiveStatus.PENDING,
+  trigger_type=ProspectiveTriggerType.TIME,
+  trigger_at="2026-04-11T09:00:00",
+  recurrence="weekly",
+  priority=8,
+  user_id="alice"
+)
+
+# During recall(), triggered intents appear automatically:
+RecallResult(
+  score=1.0,
+  is_prospective=True,
+  memory=Memory(text="Follow up with Bob...", priority=8)
+)`,
+  "Knowledge Graph": `# Output of client.graph.get_entities(...)
+[
+  Entity(name="Alice", type="person", confidence=0.97),
+  Entity(name="ML team", type="team", confidence=0.91),
+  Entity(name="Acme Corp", type="org", confidence=0.88),
+]
+
+# Output of client.graph.get_relations(entity="Alice")
+[
+  Relation(source="Alice", relation="manages", target="ML team"),
+  Relation(source="Alice", relation="works_at", target="Acme Corp"),
+  Relation(source="Alice", relation="reports_to", target="Bob"),
+]`,
+  "Multi-Agent": `# Output of client.recall(...)
+[
+  RecallResult(
+    score=0.91,
+    memory=Memory(
+      text="Customer reported billing issue #4521",
+      agent_id="triage_agent",
+      user_id="support_team",
+      type="event",
+    )
+  )
+]`,
+  "Sessions": `# Output of client.sessions.create(...)
+Session(
+  id="sess_q1w2e3",
+  user_id="alice",
+  title="Q2 planning",
+  status="active",
+  turn_count=0,
+  summary=None
+)
+
+# After client.sessions.complete(...)
+Session(
+  id="sess_q1w2e3",
+  status="completed",
+  turn_count=4,
+  summary="Alice discussed Q2 deadline (March 15th) and confirmed ownership."
+)`,
+  "Context Assembly": `# Output of client.context.assemble(...)
+ContextPack(
+  token_count=847,
+  memories=[
+    Memory(text="Prefers oat milk, works remotely Tuesdays", score=0.94),
+    Memory(text="Timezone: America/New_York", score=0.88),
+    Memory(text="Uses dark mode, keyboard shortcuts enthusiast", score=0.81),
+  ],
+  text="""
+User preferences:
+- Prefers oat milk, works remotely on Tuesdays
+- Timezone: America/New_York
+- Uses dark mode, keyboard shortcuts enthusiast
+  """
+)`,
+  "Sleep Phase": `# Output of client.sleep_phase(...)
+SleepResult(
+  consolidated=12,    # memories merged
+  pruned=3,           # low-importance memories removed
+  decayed=47,         # importance scores updated
+  health_score=0.91,  # 0-1, higher is better
+  duration_ms=1842
+)`,
+}
 
 const codeExamples: Record<string, string> = {
   "Remember & Recall": `from hippocampai import MemoryClient
@@ -165,6 +280,7 @@ print(f"Health score: {result.health_score}")`
 export function DeveloperExperience() {
   const [activeTab, setActiveTab] = useState("Remember & Recall")
   const [copied, setCopied] = useState(false)
+  const [outputOpen, setOutputOpen] = useState(false)
 
   const copyCode = () => {
     navigator.clipboard.writeText(codeExamples[activeTab])
@@ -201,7 +317,7 @@ export function DeveloperExperience() {
               {Object.keys(codeExamples).map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => { setActiveTab(tab); setOutputOpen(false) }}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     activeTab === tab
                       ? "bg-cyan-500 text-white"
@@ -264,11 +380,44 @@ export function DeveloperExperience() {
               </div>
 
               {/* Code */}
-              <pre className="p-6 overflow-x-auto">
+              <pre className="p-6 overflow-x-auto max-h-72">
                 <code className="text-sm text-slate-300 font-mono whitespace-pre">
                   {codeExamples[activeTab]}
                 </code>
               </pre>
+
+              {/* Output toggle */}
+              {outputExamples[activeTab] && (
+                <div className="border-t border-slate-700">
+                  <button
+                    onClick={() => setOutputOpen((o) => !o)}
+                    className="w-full flex items-center justify-between px-4 py-2.5 text-xs text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      Output preview
+                    </span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${outputOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {outputOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <pre className="p-4 pt-0 overflow-x-auto border-t border-slate-800 bg-slate-950 max-h-56">
+                          <code className="text-xs text-emerald-300 font-mono whitespace-pre">
+                            {outputExamples[activeTab]}
+                          </code>
+                        </pre>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
             </div>
           </motion.div>
         </div>

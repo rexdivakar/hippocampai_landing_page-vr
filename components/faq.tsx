@@ -1,8 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Search, X } from "lucide-react"
 
 const faqs = [
   {
@@ -69,6 +69,15 @@ const faqs = [
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [query, setQuery] = useState("")
+
+  const filtered = query.trim()
+    ? faqs.filter(
+        (f) =>
+          f.question.toLowerCase().includes(query.toLowerCase()) ||
+          f.answer.toLowerCase().includes(query.toLowerCase())
+      )
+    : faqs
 
   return (
     <section className="py-20 px-6" id="faq">
@@ -77,7 +86,7 @@ export function FAQ() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
           <h2 className="text-3xl font-bold tracking-tight mb-3 text-slate-900">
             Frequently asked questions
@@ -87,34 +96,70 @@ export function FAQ() {
           </p>
         </motion.div>
 
-        <div className="max-w-3xl mx-auto space-y-3">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="bg-white rounded-xl border border-slate-200 overflow-hidden"
-            >
+        {/* Search box */}
+        <div className="max-w-3xl mx-auto mb-6">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setOpenIndex(null) }}
+              placeholder="Search questions… e.g. docker, GDPR, batch"
+              className="w-full pl-11 pr-10 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+            />
+            {query && (
               <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors"
+                onClick={() => setQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 rounded"
               >
-                <span className="font-medium text-slate-900 pr-4">{faq.question}</span>
-                <ChevronDown
-                  className={`h-5 w-5 text-slate-400 flex-shrink-0 transition-transform duration-200 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                />
+                <X className="w-4 h-4" />
               </button>
-              {openIndex === index && (
-                <div className="px-5 pb-5">
-                  <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
-                </div>
-              )}
-            </motion.div>
-          ))}
+            )}
+          </div>
+          {query && (
+            <p className="text-xs text-slate-400 mt-2 pl-1">
+              {filtered.length} result{filtered.length !== 1 ? "s" : ""} for &ldquo;{query}&rdquo;
+            </p>
+          )}
+        </div>
+
+        <div className="max-w-3xl mx-auto space-y-3">
+          <AnimatePresence>
+            {filtered.map((faq, index) => (
+              <motion.div
+                key={faq.question}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.15, delay: index * 0.03 }}
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
+              >
+                <button
+                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  className="w-full flex items-center justify-between p-5 text-left hover:bg-slate-50 transition-colors"
+                >
+                  <span className="font-medium text-slate-900 pr-4">{faq.question}</span>
+                  <ChevronDown
+                    className={`h-5 w-5 text-slate-400 flex-shrink-0 transition-transform duration-200 ${
+                      openIndex === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {openIndex === index && (
+                  <div className="px-5 pb-5">
+                    <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-10 text-slate-500">
+              <p className="mb-2">No matching questions.</p>
+              <button onClick={() => setQuery("")} className="text-cyan-600 hover:underline text-sm">Clear search</button>
+            </div>
+          )}
         </div>
 
         <motion.div

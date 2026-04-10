@@ -1,7 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState } from "react"
+import { motion, useInView } from "framer-motion"
+import { useState, useRef } from "react"
 import {
   Layers, Cpu, Filter, Database, Search, Moon, GitBranch,
   ArrowRight, MessageSquare, Settings, FileText, Tag
@@ -143,6 +143,8 @@ const techStack = ["Python", "FastAPI", "Qdrant", "Redis", "DuckDB", "OpenAI", "
 
 export function HowItWorks() {
   const [activeStage, setActiveStage] = useState<string | null>(null)
+  const pipelineRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(pipelineRef, { once: true, margin: "-100px" })
 
   const getColorClasses = (color: string, isActive: boolean) => {
     const colors: Record<string, { bg: string; border: string; text: string; activeBg: string }> = {
@@ -173,32 +175,51 @@ export function HowItWorks() {
         </motion.div>
 
         {/* Pipeline Flow */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-8 mb-8">
+        <div ref={pipelineRef} className="bg-white rounded-2xl border border-slate-200 p-8 mb-8">
           <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4">
             {pipelineStages.map((stage, index) => {
               const colors = getColorClasses(stage.color, activeStage === stage.id)
               const isActive = activeStage === stage.id
-              
+
               return (
                 <div key={stage.id} className="flex items-center gap-2 md:gap-4">
                   <motion.button
                     onClick={() => setActiveStage(isActive ? null : stage.id)}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                     className={`flex flex-col items-center p-4 rounded-xl border-2 transition-all cursor-pointer ${
-                      isActive 
-                        ? `${colors.activeBg} ${colors.border} shadow-lg` 
+                      isActive
+                        ? `${colors.activeBg} ${colors.border} shadow-lg`
                         : `${colors.bg} ${colors.border} hover:shadow-md`
                     }`}
                   >
-                    <div className={`w-12 h-12 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center mb-2`}>
+                    <div className={`relative w-12 h-12 rounded-xl ${colors.bg} ${colors.border} border flex items-center justify-center mb-2`}>
                       <stage.icon className={`w-6 h-6 ${colors.text}`} />
+                      {/* Pulse ring on entry */}
+                      {isInView && (
+                        <motion.div
+                          className={`absolute inset-0 rounded-xl border-2 ${colors.border}`}
+                          initial={{ scale: 1, opacity: 0.8 }}
+                          animate={{ scale: 1.6, opacity: 0 }}
+                          transition={{ duration: 0.7, delay: index * 0.1 + 0.3, ease: "easeOut" }}
+                        />
+                      )}
                     </div>
                     <div className="text-sm font-semibold text-slate-800">{stage.title}</div>
                     <div className="text-xs text-slate-500 text-center max-w-[100px]">{stage.subtitle}</div>
                   </motion.button>
                   {index < pipelineStages.length - 1 && (
-                    <ArrowRight className="w-5 h-5 text-slate-300 hidden md:block" />
+                    <motion.div
+                      initial={{ opacity: 0, scaleX: 0 }}
+                      animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
+                      transition={{ duration: 0.3, delay: index * 0.1 + 0.25 }}
+                      style={{ originX: 0 }}
+                    >
+                      <ArrowRight className="w-5 h-5 text-slate-300 hidden md:block" />
+                    </motion.div>
                   )}
                 </div>
               )
