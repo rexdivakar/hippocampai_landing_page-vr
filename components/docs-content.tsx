@@ -156,7 +156,7 @@ export function DocsContent() {
                 </p>
 
                 <p className="text-slate-600 leading-relaxed mb-8">
-                  Named after the hippocampus — the brain region responsible for memory formation — it gives
+                  Named after the hippocampus the brain region responsible for memory formation it gives
                   AI systems human-like memory capabilities: storing preferences, tracking facts, detecting
                   behavioral patterns, and delivering personalized experiences across sessions.
                 </p>
@@ -213,8 +213,8 @@ export function DocsContent() {
                 <p className="text-slate-600 mb-4">HippocampAI is organized into two packages for flexibility:</p>
                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 mb-6">
                   <ul className="space-y-2 text-slate-600">
-                    <li><strong>hippocampai.core</strong> — Core memory engine (lightweight, no SaaS deps). For library integration and embedded use.</li>
-                    <li><strong>hippocampai.platform</strong> — SaaS platform (API, auth, Celery, monitoring). For self-hosted SaaS deployment.</li>
+                    <li><strong>hippocampai.core</strong> Core memory engine (lightweight, no SaaS deps). For library integration and embedded use.</li>
+                    <li><strong>hippocampai.platform</strong> SaaS platform (API, auth, Celery, monitoring). For self-hosted SaaS deployment.</li>
                   </ul>
                 </div>
 
@@ -641,7 +641,7 @@ client.remember("My target: 50 calls/week", user_id="sales_team/alice", type="go
               <div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-2">Session Management</h1>
                 <p className="text-slate-600 mb-6">
-                  Sessions give you structured tracking of multi-turn conversations. Each session accumulates turns, and when it reaches a configurable threshold HippocampAI automatically summarizes it via LLM and persists the summary as a long-term memory — no manual plumbing required.
+                  Sessions give you structured tracking of multi-turn conversations. Each session accumulates turns, and when it reaches a configurable threshold HippocampAI automatically summarizes it via LLM and persists the summary as a long-term memory no manual plumbing required.
                 </p>
 
                 <h2 className="text-xl font-semibold text-slate-800 mb-4">Basic Usage</h2>
@@ -661,9 +661,9 @@ session = client.sessions.create(
 client.sessions.add_turn(session.id, role="user",      content="What's the deadline?")
 client.sessions.add_turn(session.id, role="assistant", content="March 15th per Jira.")
 client.sessions.add_turn(session.id, role="user",      content="Who owns it?")
-client.sessions.add_turn(session.id, role="assistant", content="Alice — she confirmed last week.")
+client.sessions.add_turn(session.id, role="assistant", content="Alice she confirmed last week.")
 
-# Complete — triggers LLM summarization if threshold reached
+# Complete triggers LLM summarization if threshold reached
 client.sessions.complete(session.id)
 
 # Get the session
@@ -683,7 +683,7 @@ results = client.sessions.search(
 )
 
 for r in results:
-    print(f"Session: {r.session.title} — {r.excerpt}")`}
+    print(f"Session: {r.session.title} {r.excerpt}")`}
                   language="python"
                   id="sess-search"
                 />
@@ -809,7 +809,7 @@ response = openai_client.chat.completions.create(
                   </div>
                   <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                     <h4 className="font-medium text-slate-800 mb-1">Transaction Time</h4>
-                    <p className="text-sm text-slate-500">When was this fact <em>recorded in the system</em>? Managed automatically — immutable once written.</p>
+                    <p className="text-sm text-slate-500">When was this fact <em>recorded in the system</em>? Managed automatically immutable once written.</p>
                   </div>
                 </div>
 
@@ -829,7 +829,7 @@ client.bitemporal.store(
     type="fact",
 )
 
-# Store a correction — the old record is NOT deleted,
+# Store a correction the old record is NOT deleted,
 # only superseded for the overlapping valid period
 client.bitemporal.store(
     user_id="org_123",
@@ -876,7 +876,7 @@ for entry in history:
               <div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-2">Security & Authentication</h1>
                 <p className="text-slate-600 mb-6">
-                  HippocampAI is self-hosted — your data never leaves your infrastructure. The SaaS platform tier adds JWT authentication, API key management, rate limiting, and a full audit trail.
+                  HippocampAI is self-hosted your data never leaves your infrastructure. The SaaS platform tier adds JWT authentication, API key management, rate limiting, and a full audit trail.
                 </p>
 
                 <h2 className="text-xl font-semibold text-slate-800 mb-4">Authentication (SaaS mode)</h2>
@@ -884,7 +884,7 @@ for entry in history:
                   code={`# Install SaaS tier
 pip install "hippocampai[saas]"
 
-# .env — set these before starting the server
+# .env set these before starting the server
 JWT_SECRET_KEY=your-secret-key-min-32-chars
 JWT_ALGORITHM=HS256
 JWT_EXPIRY_HOURS=24
@@ -917,8 +917,8 @@ AUDIT_LOG_PATH=./logs/audit.jsonl
                   {[
                     { title: "Self-hosted", desc: "All data stays in your Qdrant and Redis instances. No cloud sync, no telemetry." },
                     { title: "Delete by user", desc: "client.delete_all(user_id='alice') removes all memories, sessions, and graph nodes for that user in one call. Suitable for GDPR right-to-erasure." },
-                    { title: "Namespace isolation", desc: "Memory spaces are scoped by user_id and optionally agent_id — cross-user data leakage is structurally impossible." },
-                    { title: "Encryption at rest", desc: "Not built-in — delegate to your Qdrant and Redis deployment (both support encrypted volumes / TLS)." },
+                    { title: "Namespace isolation", desc: "Memory spaces are scoped by user_id and optionally agent_id cross-user data leakage is structurally impossible." },
+                    { title: "Encryption at rest", desc: "Not built-in delegate to your Qdrant and Redis deployment (both support encrypted volumes / TLS)." },
                   ].map((item) => (
                     <div key={item.title} className="flex gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
                       <div className="w-2 h-2 rounded-full bg-cyan-400 mt-2 flex-shrink-0" />
@@ -1139,10 +1139,10 @@ memory = client.get_memory(memory_id: str) -> Memory
 # Bulk fetch by ID list (silently skips not-found IDs)
 memories = client.batch_get(ids: list[str]) -> list[Memory]
 
-# Bulk delete — returns {"deleted": N, "failed": M}
+# Bulk delete returns {"deleted": N, "failed": M}
 result = client.batch_delete(ids: list[str]) -> dict
 
-# Deduplicate — dry_run=True shows what would be removed
+# Deduplicate dry_run=True shows what would be removed
 report = client.deduplicate(user_id="alice", dry_run=True)`}
                   language="python"
                   id="api-batch"
@@ -1199,7 +1199,7 @@ client.import_memories(path="backup.json", user_id="alice")`}
                 <h1 className="text-3xl font-bold text-slate-900 mb-2">Prospective Memory</h1>
                 <p className="text-slate-600 mb-6">
                   Prospective memory is the ability to <strong>remember to do something in the future</strong>.
-                  HippocampAI v0.5.1 adds first-class support for scheduling future actions — either at a specific
+                  HippocampAI v0.5.1 adds first-class support for scheduling future actions either at a specific
                   time/recurrence, or when a particular topic arises in a recall query.
                 </p>
 
@@ -1247,7 +1247,7 @@ intent = client.prospective.create(
 
                 <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Recall Integration</h2>
                 <p className="text-slate-600 mb-4">
-                  Triggered intents surface automatically as <code>RetrievalResult</code> objects during any <code>recall()</code> call — no extra code needed.
+                  Triggered intents surface automatically as <code>RetrievalResult</code> objects during any <code>recall()</code> call no extra code needed.
                 </p>
                 <CodeBlock
                   code={`# Triggered prospective intents appear in recall results
@@ -1343,13 +1343,13 @@ print(ids)  # ["mem_abc", "mem_def", "mem_ghi"]`}
 
                 <h2 className="text-xl font-semibold text-slate-800 mt-8 mb-4">Batch Fetch &amp; Delete</h2>
                 <CodeBlock
-                  code={`# Fetch by explicit ID list — silently skips not-found IDs
+                  code={`# Fetch by explicit ID list silently skips not-found IDs
 memories = client.batch_get(["mem_abc", "mem_def", "mem_xyz"])
 
 # Single memory by ID (404 if not found)
 memory = client.get_memory("mem_abc")
 
-# Delete by ID list — returns counts
+# Delete by ID list returns counts
 result = client.batch_delete(["mem_abc", "mem_def"])
 # → {"deleted": 2, "failed": 0}`}
                   language="python"
@@ -1444,12 +1444,12 @@ CELERY_BROKER_URL=redis://localhost:6379/1`}
                 <p className="text-slate-600 mb-4">Supported providers and their configuration:</p>
                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                   <ul className="space-y-2 text-slate-600">
-                    <li><strong>OpenAI</strong> — GPT-4, GPT-3.5, text-embedding-3-small/large</li>
-                    <li><strong>Anthropic</strong> — Claude 3.5 Sonnet, Claude 3 Opus/Haiku</li>
-                    <li><strong>Groq</strong> — Fast inference with Llama, Mixtral models</li>
-                    <li><strong>Ollama</strong> — Local models (no API key needed)</li>
-                    <li><strong>HuggingFace</strong> — Sentence Transformers for embeddings</li>
-                    <li><strong>Custom</strong> — Implement provider interface for any LLM/embedding</li>
+                    <li><strong>OpenAI</strong> GPT-4, GPT-3.5, text-embedding-3-small/large</li>
+                    <li><strong>Anthropic</strong> Claude 3.5 Sonnet, Claude 3 Opus/Haiku</li>
+                    <li><strong>Groq</strong> Fast inference with Llama, Mixtral models</li>
+                    <li><strong>Ollama</strong> Local models (no API key needed)</li>
+                    <li><strong>HuggingFace</strong> Sentence Transformers for embeddings</li>
+                    <li><strong>Custom</strong> Implement provider interface for any LLM/embedding</li>
                   </ul>
                 </div>
 
@@ -1693,7 +1693,7 @@ docker-compose logs -f`}
                       </div>
                     </div>
                     <div className="bg-slate-50 px-5 py-3 border-t border-slate-100">
-                      <span className="text-xs text-slate-500">Default port: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">6333</code> — Runs as standalone service or via Docker</span>
+                      <span className="text-xs text-slate-500">Default port: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">6333</code> Runs as standalone service or via Docker</span>
                     </div>
                   </div>
 
@@ -1732,7 +1732,7 @@ docker-compose logs -f`}
                       </div>
                     </div>
                     <div className="bg-slate-50 px-5 py-3 border-t border-slate-100">
-                      <span className="text-xs text-slate-500">Default port: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">6379</code> — Required for hybrid retrieval and production caching</span>
+                      <span className="text-xs text-slate-500">Default port: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">6379</code> Required for hybrid retrieval and production caching</span>
                     </div>
                   </div>
 
@@ -1771,7 +1771,7 @@ docker-compose logs -f`}
                       </div>
                     </div>
                     <div className="bg-slate-50 px-5 py-3 border-t border-slate-100">
-                      <span className="text-xs text-slate-500">File-based: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">hippocampai.db</code> — No separate service required</span>
+                      <span className="text-xs text-slate-500">File-based: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">hippocampai.db</code> No separate service required</span>
                     </div>
                   </div>
 
@@ -1810,7 +1810,7 @@ docker-compose logs -f`}
                       </div>
                     </div>
                     <div className="bg-slate-50 px-5 py-3 border-t border-slate-100">
-                      <span className="text-xs text-slate-500">Default port: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">8000</code> — Powers both SaaS platform and self-hosted API</span>
+                      <span className="text-xs text-slate-500">Default port: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">8000</code> Powers both SaaS platform and self-hosted API</span>
                     </div>
                   </div>
 
@@ -1826,7 +1826,7 @@ docker-compose logs -f`}
                           <span className="px-2 py-0.5 bg-sky-50 text-sky-700 rounded text-xs font-medium border border-sky-200">Containerization</span>
                         </div>
                         <p className="text-slate-600 text-sm leading-relaxed mb-3">
-                          Docker Compose orchestrates all services — API server, Qdrant, Redis, and Celery workers — in a single deployment. Provides one-command setup for development and production environments.
+                          Docker Compose orchestrates all services API server, Qdrant, Redis, and Celery workers in a single deployment. Provides one-command setup for development and production environments.
                         </p>
                         <div className="grid sm:grid-cols-2 gap-2">
                           <div className="flex items-center gap-2 text-sm text-slate-600">
@@ -1849,7 +1849,7 @@ docker-compose logs -f`}
                       </div>
                     </div>
                     <div className="bg-slate-50 px-5 py-3 border-t border-slate-100">
-                      <span className="text-xs text-slate-500">Setup: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">docker compose up -d</code> — Launches full stack in ~30 seconds</span>
+                      <span className="text-xs text-slate-500">Setup: <code className="text-xs bg-white px-1.5 py-0.5 rounded border border-slate-200">docker compose up -d</code> Launches full stack in ~30 seconds</span>
                     </div>
                   </div>
 
@@ -1888,7 +1888,7 @@ docker-compose logs -f`}
                       </div>
                     </div>
                     <div className="bg-slate-50 px-5 py-3 border-t border-slate-100">
-                      <span className="text-xs text-slate-500">Broker: Redis — Used in SaaS platform deployment for async background tasks</span>
+                      <span className="text-xs text-slate-500">Broker: Redis Used in SaaS platform deployment for async background tasks</span>
                     </div>
                   </div>
                 </div>
@@ -1983,7 +1983,7 @@ docker-compose logs -f`}
                       <div className="w-6 h-6 bg-cyan-100 rounded flex items-center justify-center">
                         <ArrowRight className="h-3.5 w-3.5 text-cyan-600" />
                       </div>
-                      remember() — Write Path
+                      remember() Write Path
                     </h3>
                     <div className="space-y-3">
                       {[
@@ -2015,7 +2015,7 @@ docker-compose logs -f`}
                       <div className="w-6 h-6 bg-purple-100 rounded flex items-center justify-center">
                         <Search className="h-3.5 w-3.5 text-purple-600" />
                       </div>
-                      recall() — Read Path
+                      recall() Read Path
                     </h3>
                     <div className="space-y-3">
                       {[
@@ -2221,7 +2221,7 @@ results = client.recall("Alice's projects", user_id="org", use_graph=True)`}
                     <CodeBlock
                       code={`# Set REDIS_URL in your environment
 # REDIS_URL=redis://localhost:6379
-# That's it — caching is automatic when Redis is available`}
+# That's it caching is automatic when Redis is available`}
                       language="bash"
                       id="bp-redis"
                     />

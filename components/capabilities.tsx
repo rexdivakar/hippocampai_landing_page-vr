@@ -117,7 +117,7 @@ const capabilities: {
   {
     icon: Clock,
     title: "Prospective Memory",
-    description: "\"Remembering to remember\" — schedule future actions with time-based or event-based triggers. Supports daily, weekly, monthly, and custom cron recurrence.",
+    description: "\"Remembering to remember\" schedule future actions with time-based or event-based triggers. Supports daily, weekly, monthly, and custom cron recurrence.",
     technical: "POST /v1/prospective/ · 9 endpoints · croniter recurrence",
     color: "purple",
     tags: ["Automation", "New in v0.5.1"],
@@ -194,7 +194,7 @@ export function Capabilities() {
             Everything you need for AI memory
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            From knowledge graphs to multi-agent collaboration — all the primitives for building memory-enabled AI applications
+            From knowledge graphs to multi-agent collaboration all the primitives for building memory-enabled AI applications
           </p>
         </motion.div>
 

@@ -54,7 +54,7 @@ export function Hero() {
           {/* Badge */}
           <Link href="/#changelog" className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-sm text-cyan-700 hover:bg-cyan-100 transition-colors">
             <Sparkles className="w-3.5 h-3.5" />
-            v0.6.0 — LLM Usage Tracing, Retry Visibility, Cost Estimation
+            v0.6.0 LLM Usage Tracing, Retry Visibility, Cost Estimation
             <ArrowRight className="w-3 h-3" />
           </Link>
 

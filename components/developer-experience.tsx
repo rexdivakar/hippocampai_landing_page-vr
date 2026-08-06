@@ -141,7 +141,7 @@ for r in results:
 
 client = MemoryClient()
 
-# Store many memories in one call — individual failures
+# Store many memories in one call individual failures
 # are logged but never abort the batch
 ids = client.batch_remember([
     {"text": "Prefers dark mode", "user_id": "alice"},
@@ -153,7 +153,7 @@ ids = client.batch_remember([
 memory = client.get_memory(ids[0])
 print(memory.text)
 
-# Deduplicate — dry_run=True to inspect first
+# Deduplicate dry_run=True to inspect first
 report = client.deduplicate(user_id="alice", dry_run=True)
 print(f"Would remove {report.duplicate_count} duplicates")`,
   "Prospective Memory": `from hippocampai import MemoryClient
@@ -230,7 +230,7 @@ client.sessions.add_turn(session.id, role="assistant", content="March 15th per J
 
 # When the session reaches a threshold HippocampAI
 # auto-summarizes it via LLM and stores the summary
-# as a persistent memory — no extra work needed.
+# as a persistent memory no extra work needed.
 client.sessions.complete(session.id)
 
 # Search across all past sessions semantically
@@ -244,7 +244,7 @@ results = client.sessions.search(
 client = MemoryClient()
 
 # Build a context pack that fits within a token budget
-# — HippocampAI ranks and selects the most relevant
+# HippocampAI ranks and selects the most relevant
 #   memories automatically
 pack = client.context.assemble(
     query="What does Alice prefer?",

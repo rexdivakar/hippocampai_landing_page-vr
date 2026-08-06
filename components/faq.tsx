@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     question: "What is Prospective Memory?",
-    answer: "Prospective memory is \"remembering to do something in the future.\" You create intents that fire either at a specific time (with optional daily/weekly/monthly/custom_cron recurrence) or when a recall() query matches keywords or embedding similarity. Triggered intents surface automatically in recall() results — no extra code required.",
+    answer: "Prospective memory is \"remembering to do something in the future.\" You create intents that fire either at a specific time (with optional daily/weekly/monthly/custom_cron recurrence) or when a recall() query matches keywords or embedding similarity. Triggered intents surface automatically in recall() results no extra code required.",
   },
   {
     question: "How do Batch Operations work?",
@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     question: "How do I deploy HippocampAI?",
-    answer: "Two paths: (1) Lightweight library — pip install hippocampai, point at a Qdrant instance, done. (2) Full platform — docker compose up -d spins up the API server, React dashboard, Qdrant, Redis, Celery workers, Prometheus, and Grafana in ~30 seconds. For SaaS features (auth, rate limiting, multi-tenant) use pip install hippocampai[saas].",
+    answer: "Two paths: (1) Lightweight library pip install hippocampai, point at a Qdrant instance, done. (2) Full platform docker compose up -d spins up the API server, React dashboard, Qdrant, Redis, Celery workers, Prometheus, and Grafana in ~30 seconds. For SaaS features (auth, rate limiting, multi-tenant) use pip install hippocampai[saas].",
   },
   {
     question: "What are the hardware requirements?",
@@ -47,7 +47,7 @@ const faqs = [
   },
   {
     question: "How does data privacy work? Is it GDPR-compliant?",
-    answer: "HippocampAI is self-hosted — your data never leaves your infrastructure. There is no cloud sync or telemetry. For GDPR: you control data retention, can delete all memories for a user_id with a single call, and the audit logging system provides a complete trail. Session data and vector embeddings are stored only in your Qdrant and Redis instances.",
+    answer: "HippocampAI is self-hosted your data never leaves your infrastructure. There is no cloud sync or telemetry. For GDPR: you control data retention, can delete all memories for a user_id with a single call, and the audit logging system provides a complete trail. Session data and vector embeddings are stored only in your Qdrant and Redis instances.",
   },
   {
     question: "Can I migrate from another memory system?",

@@ -78,7 +78,7 @@ export function Comparison() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-50 border border-cyan-200 rounded-full text-sm text-cyan-700">
             <Check className="w-4 h-4 text-cyan-500" />
-            <span><strong>{UNIQUE_ROWS.size} features</strong> only available in HippocampAI — highlighted below</span>
+            <span><strong>{UNIQUE_ROWS.size} features</strong> only available in HippocampAI highlighted below</span>
           </div>
         </motion.div>
 

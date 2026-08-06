@@ -39,7 +39,7 @@ export function WhatIs() {
             {
               icon: Workflow,
               title: "Memory Lifecycle",
-              description: "Consolidation, decay, and pruning. Memories evolve over time — important ones strengthen, irrelevant ones fade."
+              description: "Consolidation, decay, and pruning. Memories evolve over time important ones strengthen, irrelevant ones fade."
             }
           ].map((item, index) => (
             <motion.div

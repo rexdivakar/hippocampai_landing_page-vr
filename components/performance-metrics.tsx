@@ -64,7 +64,7 @@ export function PerformanceMetrics() {
             Performance that scales
           </h2>
           <p className="text-lg text-slate-600">
-            Built for production workloads — run the{" "}
+            Built for production workloads run the{" "}
             <a
               href="https://github.com/rexdivakar/HippocampAI/tree/main/bench"
               target="_blank"

@@ -30,7 +30,7 @@ const releases = [
       "Single-memory GET: GET /v1/memories/{memory_id} with 404 on miss",
       "Prometheus /metrics endpoint in main app with graceful fallback",
       "RemoteBackend URL patterns corrected; timeout raised to 90s",
-      "QueryRouter stem-prefix matching — plurals and conjugations now work",
+      "QueryRouter stem-prefix matching plurals and conjugations now work",
       "Groq retry capped at 3 × 20s (was 5 × 60s, could hang ~5 min)",
     ]
   },
@@ -40,7 +40,7 @@ const releases = [
     typeColor: "purple",
     date: "Feb 2026",
     features: [
-      "Prospective Memory — time-based and event-based future triggers",
+      "Prospective Memory time-based and event-based future triggers",
       "ProspectiveMemoryManager with full pending→triggered→completed lifecycle",
       "Recurrence: daily, weekly, monthly, custom_cron via croniter",
       "Embedding-similarity event matching for trigger conditions",

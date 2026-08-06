@@ -158,7 +158,7 @@ export function QuickStart() {
               ))}
             </div>
 
-            {/* Install variants — all on one line */}
+            {/* Install variants all on one line */}
             <div className="max-w-5xl mx-auto">
               <p className="text-xs text-slate-500 text-center mb-3 uppercase tracking-wider font-medium">Install only what you need</p>
               <div className="flex flex-wrap items-center justify-center gap-2">
