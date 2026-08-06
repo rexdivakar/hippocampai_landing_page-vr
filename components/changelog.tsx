@@ -5,9 +5,24 @@ import { Tag, Sparkles, ExternalLink } from "lucide-react"
 
 const releases = [
   {
-    version: "v0.5.1",
+    version: "v0.6.0",
     type: "Latest Release",
     typeColor: "cyan",
+    date: "Aug 2026",
+    features: [
+      "Two-level LLM tracing for logical invocations and every upstream attempt",
+      "Retry and provider fallback history preserved with latency and token usage",
+      "Provider-neutral metadata for OpenAI, Anthropic, Groq, and Ollama",
+      "Opt-in cost estimation with configurable per-model pricing",
+      "Sanitized and truncated provider errors protect API keys and credentials",
+      "Usage summary, recent invocation, and trace export APIs",
+      "Retry behavior corrected across all supported LLM providers",
+    ]
+  },
+  {
+    version: "v0.5.1",
+    type: "Patch Release",
+    typeColor: "green",
     date: "Apr 2026",
     features: [
       "Batch memory endpoints: store/get/delete N memories in one request",

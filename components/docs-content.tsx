@@ -162,8 +162,8 @@ export function DocsContent() {
                 </p>
 
                 <div className="bg-cyan-50 rounded-xl p-4 border border-cyan-100 mb-8">
-                  <p className="text-sm text-cyan-800 font-medium">Current Release: v0.5.1</p>
-                  <p className="text-sm text-cyan-700 mt-1">Prospective memory (time &amp; event triggers), batch operations, deduplication API, RemoteBackend fixes, QueryRouter stem-prefix matching, and Groq timeout improvements.</p>
+                  <p className="text-sm text-cyan-800 font-medium">Current Release: v0.6.0 (August 6, 2026)</p>
+                  <p className="text-sm text-cyan-700 mt-1">End-to-end LLM usage tracing with per-attempt retry and fallback visibility, provider-neutral metadata, opt-in cost estimation, sanitized errors, usage reporting APIs, and corrected retry behavior across all supported providers.</p>
                 </div>
 
                 <h2 className="text-xl font-semibold text-slate-800 mb-4">Key Features</h2>

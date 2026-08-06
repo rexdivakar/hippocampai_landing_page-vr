@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { X, Sparkles, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
-const BANNER_KEY = "hippocamp_banner_v051_dismissed"
+const BANNER_KEY = "hippocamp_banner_v060_dismissed"
 
 export function AnnouncementBanner() {
   const [visible, setVisible] = useState(false)
@@ -26,9 +26,9 @@ export function AnnouncementBanner() {
       <div className="mx-auto max-w-6xl px-4 py-2.5 flex items-center justify-center gap-3 text-sm">
         <Sparkles className="w-4 h-4 flex-shrink-0 opacity-90" />
         <span className="font-medium">
-          v0.5.1 is out —&nbsp;
+          v0.6.0 is out —&nbsp;
           <span className="opacity-90 font-normal">
-            Prospective Memory, Batch Operations, RemoteBackend fixes
+            LLM usage tracing, retry visibility, and cost estimation
           </span>
         </span>
         <Link

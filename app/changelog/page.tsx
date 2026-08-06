@@ -5,9 +5,34 @@ import Link from "next/link"
 
 const releases = [
   {
-    version: "v0.5.1",
+    version: "v0.6.0",
     type: "Latest Release",
     typeColor: "cyan",
+    date: "August 6, 2026",
+    summary: "End-to-end LLM usage tracing with retry and fallback visibility, provider-neutral metadata, cost estimation, and corrected retry behavior.",
+    added: [
+      "Two-level trace model: each logical LLM invocation aggregates every upstream attempt",
+      "Trace context for workflow, agent, tool, feature, tenant, workspace, user, session, conversation, billing bucket, and custom metadata",
+      "Per-attempt token usage, latency, provider request ID, finish reason, and status for OpenAI, Anthropic, Groq, and Ollama",
+      "Provider-neutral UpstreamMetadata normalizers for supported providers and compatible upstreams",
+      "Opt-in cost estimation using configurable LLM_PRICING values; unknown prices remain unset rather than guessed",
+      "Error sanitization that redacts API keys, authorization headers, bearer tokens, and common secret patterns",
+      "MemoryClient APIs for usage summaries, recent invocations, and trace exports",
+      "Offline validation scenario and 34 tests covering tracing, retries, fallbacks, pricing, sanitization, and execution isolation",
+    ],
+    changed: [
+      "Provider tracing now preserves every retry and fallback attempt instead of collapsing them into one result",
+      "Tracing context propagates safely across synchronous, asynchronous, and threaded execution",
+    ],
+    fixed: [
+      "OpenAI, Anthropic, and Ollama retry decorators were previously bypassed when provider errors were caught too early",
+      "Retries now execute correctly for all four providers while preserving each provider's existing public return contract",
+    ],
+  },
+  {
+    version: "v0.5.1",
+    type: "Patch Release",
+    typeColor: "green",
     date: "April 9, 2026",
     summary: "Batch memory operations, deduplication API, RemoteBackend fixes, and QueryRouter improvements.",
     added: [
